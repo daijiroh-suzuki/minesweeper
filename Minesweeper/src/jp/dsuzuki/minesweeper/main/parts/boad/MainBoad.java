@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Map;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
@@ -43,6 +44,17 @@ public class MainBoad extends JPanel implements MouseListener {
 	/** メインボタン */
 	private JButton mainButton;
 	
+	/** x方向のタイル数 */
+	private int tileX;
+	/** y方向のタイル数 */
+	private int tileY;
+	/** タイルの一辺の大きさ */
+	private int tileSize;
+	/** 爆弾の個数 */
+	private int bombNum;
+	/** ゲームクリア条件 */
+	private int clearNum;
+	
 	/** 盤面 */
 	private int[][] boad;
 	
@@ -66,11 +78,24 @@ public class MainBoad extends JPanel implements MouseListener {
 	/**
 	 * コンストラクタ
 	 */
-	public MainBoad(JButton btn) {
+	public MainBoad(JButton btn, int index) {
+		
+		// 設定MAPを取得
+		Map<String, Integer> settingMap = CommonConstant.SETTING_LIST.get(index);
+		
+		// x方向のタイル数を取得
+		tileX = settingMap.get(CommonConstant.TILE_X);
+		// y方向のタイル数を取得
+		tileY = settingMap.get(CommonConstant.TILE_Y);
+		// タイルの一辺の大きさを取得
+		tileSize = settingMap.get(CommonConstant.TILE_SIZE);
+		// 爆弾の個数ーを取得
+		bombNum = settingMap.get(CommonConstant.BOMB_NUM);
+		// ゲームクリア条件を設定
+		clearNum = (tileX * tileY) - bombNum;
 		
 		// パネルの推奨サイズを設定
-		setPreferredSize(new Dimension(CommonConstant.TILE_X * CommonConstant.TILE_SIZE,
-				CommonConstant.TILE_Y * CommonConstant.TILE_SIZE));
+		setPreferredSize(new Dimension(tileX * tileSize, tileY * tileSize));
 		
 		// メインボタンを設定
 		mainButton = btn;
@@ -91,9 +116,9 @@ public class MainBoad extends JPanel implements MouseListener {
 	public void init() {
 		
 		// 盤面の配列を生成
-		boad  = new int[CommonConstant.TILE_Y+2][CommonConstant.TILE_X+2];
+		boad  = new int[tileY+2][tileX+2];
 		// カバーの配列を生成
-		cover = new int[CommonConstant.TILE_Y+2][CommonConstant.TILE_X+2];
+		cover = new int[tileY+2][tileX+2];
 	
 		for(int i=0; i<boad.length; i++) {
 			for(int j=0; j<boad[i].length; j++) {
@@ -127,16 +152,16 @@ public class MainBoad extends JPanel implements MouseListener {
 	}
 		
 	/**
-	 * 爆弾をセットして、盤面の値を計算する。
+	 * 爆弾をセットする。
 	 */
 	private void setBomb() {
 		
 		Random rand = new Random();
 		
-		for(int i=0; i<CommonConstant.BOMB_NUM; i++) {
+		for(int i=0; i<bombNum; i++) {
 			// 乱数で爆弾のx,y座標を取得
-			int bombX = rand.nextInt(CommonConstant.TILE_X - 2) + 1;
-			int bombY = rand.nextInt(CommonConstant.TILE_Y - 2) + 1;
+			int bombX = rand.nextInt(tileX - 2) + 1;
+			int bombY = rand.nextInt(tileY - 2) + 1;
 			
 			// 取得したx,y座標が初回クリック座標の場合は取得し直し
 			if(bombX == firstX && bombY == firstY) {
@@ -199,26 +224,26 @@ public class MainBoad extends JPanel implements MouseListener {
 				
 				// 盤面を描画
 				g.drawImage(image,
-						CommonConstant.TILE_SIZE * j - CommonConstant.TILE_SIZE,
-						CommonConstant.TILE_SIZE * i - CommonConstant.TILE_SIZE,
-						CommonConstant.TILE_SIZE * j,
-						CommonConstant.TILE_SIZE * i,
-						boad[i][j] * CommonConstant.TILE_SIZE,
+						tileSize * j - tileSize,
+						tileSize * i - tileSize,
+						tileSize * j,
+						tileSize * i,
+						boad[i][j] * tileSize,
 						IMAGE_BOAD,
-						boad[i][j] * CommonConstant.TILE_SIZE + CommonConstant.TILE_SIZE,
-						IMAGE_BOAD + CommonConstant.TILE_SIZE,
+						boad[i][j] * tileSize + tileSize,
+						IMAGE_BOAD + tileSize,
 						null);
 				
 				// カバーを描画
 				g.drawImage(image,
-						CommonConstant.TILE_SIZE * j - CommonConstant.TILE_SIZE,
-						CommonConstant.TILE_SIZE * i - CommonConstant.TILE_SIZE,
-						CommonConstant.TILE_SIZE * j,
-						CommonConstant.TILE_SIZE * i,
-						cover[i][j] * CommonConstant.TILE_SIZE,
+						tileSize * j - tileSize,
+						tileSize * i - tileSize,
+						tileSize * j,
+						tileSize * i,
+						cover[i][j] * tileSize,
 						IMAGE_COVER,
-						cover[i][j] * CommonConstant.TILE_SIZE + CommonConstant.TILE_SIZE,
-						IMAGE_COVER + CommonConstant.TILE_SIZE,
+						cover[i][j] * tileSize + tileSize,
+						IMAGE_COVER + tileSize,
 						null);
 			}
 		}
@@ -231,7 +256,7 @@ public class MainBoad extends JPanel implements MouseListener {
 	 * @return グリッド座標
 	 */
 	private int pixelToGrid(int point) {
-		return (point / CommonConstant.TILE_SIZE) + 1;
+		return (point / tileSize) + 1;
 	}
 	
 	/**
@@ -286,7 +311,7 @@ public class MainBoad extends JPanel implements MouseListener {
 		}
 		
 		// ボタン表示を変更
-		mainButton.setText("(´･ω･`) ｼｮﾎﾞｰﾝ");
+		mainButton.setText(CommonConstant.BUTTON_GAME_OVER);
 	}
 	
 	/**
@@ -303,15 +328,15 @@ public class MainBoad extends JPanel implements MouseListener {
 		}
 		
 		System.out.println("オープンされているカバー数：" + cnt);
-		System.out.println("クリア条件：" + CommonConstant.CLEAR_NUM);
+		System.out.println("クリア条件：" + clearNum);
 		
 		// オープンされていカバー数がクリア条件を満たしていない場合
-		if(cnt < CommonConstant.CLEAR_NUM) {
+		if(cnt < clearNum) {
 			return;
 		}
 		
 		// ボタン表示を変更
-		mainButton.setText("(`･ω･´)ｼｬｷｰﾝ");
+		mainButton.setText(CommonConstant.BUTTON_GAME_CLEAR);
 	}
 			
 	/**
@@ -381,17 +406,16 @@ public class MainBoad extends JPanel implements MouseListener {
 				gameClear();
 			}
 			
-		
 		// 右クリックの場合
 		} else if(MouseEvent.BUTTON3 == button) {
 			
-			if(COVER_STATE_PULL == cover[y][x]) {
+			if(cover[y][x] == COVER_STATE_PULL) {
 				cover[y][x] = COVER_STATE_FLAG;
 			
-			} else if(COVER_STATE_FLAG == cover[y][x]) {
+			} else if(cover[y][x] == COVER_STATE_FLAG) {
 				cover[y][x] = COVER_STATE_QUES;
 			
-			} else if(COVER_STATE_QUES == cover[y][x]) {
+			} else if(cover[y][x] == COVER_STATE_QUES) {
 				cover[y][x] = COVER_STATE_PULL;
 			}
 		}

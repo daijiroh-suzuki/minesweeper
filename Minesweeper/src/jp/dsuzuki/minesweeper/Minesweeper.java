@@ -4,6 +4,8 @@ import java.awt.Container;
 
 import javax.swing.JFrame;
 
+import jp.dsuzuki.minesweeper.common.CommonConstant;
+
 /**
  * マインスイーパーのフレームクラス
  * @author daijiroh
@@ -19,10 +21,10 @@ public class Minesweeper extends JFrame {
 	public Minesweeper() {
 		
 		// タイトルを設定する
-		setTitle("マインスイーパー");
+		setTitle(CommonConstant.FRAME_TITLE);
 		
 		// メインパネルを生成してフレームに追加
-		MainPanel panel = new MainPanel();
+		MainPanel panel = new MainPanel(CommonConstant.MIDDLE_INDEX);
 		Container contentPane = getContentPane();
 		contentPane.add(panel);
 		
