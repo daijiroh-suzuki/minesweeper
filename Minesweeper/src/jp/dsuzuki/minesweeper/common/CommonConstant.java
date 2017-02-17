@@ -5,6 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * ‹¤’Ê’è”ƒNƒ‰ƒX
+ *
+ * @author daijiroh
+ *
+ */
 public class CommonConstant {
 
 	/*
