@@ -61,7 +61,7 @@ public class MainBoad extends JPanel implements MouseListener {
 	/** カバー */
 	private int[][] cover;
 
-	/** 初回クリックフラグ　*/
+	/** 初回クリックフラグ */
 	private boolean clickFlag;
 
 	/** マウスドラッグフラグ */
@@ -216,29 +216,31 @@ public class MainBoad extends JPanel implements MouseListener {
 		for(int i=1; i<boad.length-1; i++) {
 			for(int j=1; j<boad[i].length-1; j++) {
 
-				// 盤面を描画
-				g.drawImage(image,
-						tileSize * j - tileSize,
-						tileSize * i - tileSize,
-						tileSize * j,
-						tileSize * i,
-						boad[i][j] * tileSize,
-						IMAGE_BOAD,
-						boad[i][j] * tileSize + tileSize,
-						IMAGE_BOAD + tileSize,
-						null);
-
-				// カバーを描画
-				g.drawImage(image,
-						tileSize * j - tileSize,
-						tileSize * i - tileSize,
-						tileSize * j,
-						tileSize * i,
-						cover[i][j] * tileSize,
-						IMAGE_COVER,
-						cover[i][j] * tileSize + tileSize,
-						IMAGE_COVER + tileSize,
-						null);
+				if(cover[i][j] == COVER_STATE_NONE) {
+					// 盤面を描画
+					g.drawImage(image,
+							tileSize * j - tileSize,
+							tileSize * i - tileSize,
+							tileSize * j,
+							tileSize * i,
+							boad[i][j] * tileSize,
+							IMAGE_BOAD,
+							boad[i][j] * tileSize + tileSize,
+							IMAGE_BOAD + tileSize,
+							null);
+				} else {
+					// カバーを描画
+					g.drawImage(image,
+							tileSize * j - tileSize,
+							tileSize * i - tileSize,
+							tileSize * j,
+							tileSize * i,
+							cover[i][j] * tileSize,
+							IMAGE_COVER,
+							cover[i][j] * tileSize + tileSize,
+							IMAGE_COVER + tileSize,
+							null);
+				}
 			}
 		}
 	}
