@@ -8,6 +8,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import jp.dsuzuki.minesweeper.common.CommonConstant;
+import jp.dsuzuki.minesweeper.common.Difficulty;
 
 /**
  * マインスイーパーのフレームクラス
@@ -49,7 +50,7 @@ public class Minesweeper extends JFrame {
         setJMenuBar(menubar);
 
         // メインパネルを生成してフレームに追加
-        MainPanel panel = new MainPanel(CommonConstant.BEGINNER_INDEX);
+        MainPanel panel = new MainPanel(Difficulty.BEGINNER);
         Container contentPane = getContentPane();
         contentPane.add(panel);
 

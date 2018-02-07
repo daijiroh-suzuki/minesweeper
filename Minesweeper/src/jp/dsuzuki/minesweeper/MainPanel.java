@@ -5,12 +5,12 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import jp.dsuzuki.minesweeper.common.CommonConstant;
+import jp.dsuzuki.minesweeper.common.Difficulty;
 import jp.dsuzuki.minesweeper.main.parts.boad.MainBoad;
 
 public class MainPanel extends JPanel {
@@ -23,13 +23,12 @@ public class MainPanel extends JPanel {
     /**
      * コンストラクタ
      */
-    public MainPanel(int index) {
+    public MainPanel(Difficulty difficulty) {
 
-        Map<String, Integer> settingMap = CommonConstant.SETTING_LIST.get(index);
         // パネルの幅を取得
-        int width = settingMap.get(CommonConstant.TILE_X) * settingMap.get(CommonConstant.TILE_SIZE) + 20;
+        int width = difficulty.TILE_X * difficulty.TILE_SIZE + 20;
         // パネルの高さを取得
-        int height = settingMap.get(CommonConstant.TILE_Y) * settingMap.get(CommonConstant.TILE_SIZE) + 60;
+        int height = difficulty.TILE_Y * difficulty.TILE_SIZE + 60;
 
         // パネルの推奨サイズを設定、pack()するときに必要
         setPreferredSize(new Dimension(width, height));
@@ -37,7 +36,7 @@ public class MainPanel extends JPanel {
         // ボタンを生成
         JButton button = new JButton(CommonConstant.BUTTON_INIT);
         // 盤面クラスを生成
-        boad = new MainBoad(button, index);
+        boad = new MainBoad(button, difficulty);
 
         // ボタンのアクションリスナーを設定
         button.addMouseListener(
