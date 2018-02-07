@@ -17,35 +17,35 @@ public class MainPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
-    /** ”Õ–Ê */
+    /** ç›¤é¢ */
     private MainBoad boad;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     public MainPanel(int index) {
 
         Map<String, Integer> settingMap = CommonConstant.SETTING_LIST.get(index);
-        // ƒpƒlƒ‹‚Ì•‚ğæ“¾
+        // ãƒ‘ãƒãƒ«ã®å¹…ã‚’å–å¾—
         int width = settingMap.get(CommonConstant.TILE_X) * settingMap.get(CommonConstant.TILE_SIZE) + 20;
-        // ƒpƒlƒ‹‚Ì‚‚³‚ğæ“¾
+        // ãƒ‘ãƒãƒ«ã®é«˜ã•ã‚’å–å¾—
         int height = settingMap.get(CommonConstant.TILE_Y) * settingMap.get(CommonConstant.TILE_SIZE) + 60;
 
-        // ƒpƒlƒ‹‚Ì„§ƒTƒCƒY‚ğİ’èApack()‚·‚é‚Æ‚«‚É•K—v
+        // ãƒ‘ãƒãƒ«ã®æ¨å¥¨ã‚µã‚¤ã‚ºã‚’è¨­å®šã€pack()ã™ã‚‹ã¨ãã«å¿…è¦
         setPreferredSize(new Dimension(width, height));
 
-        // ƒ{ƒ^ƒ“‚ğ¶¬
+        // ãƒœã‚¿ãƒ³ã‚’ç”Ÿæˆ
         JButton button = new JButton(CommonConstant.BUTTON_INIT);
-        // ”Õ–ÊƒNƒ‰ƒX‚ğ¶¬
+        // ç›¤é¢ã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆ
         boad = new MainBoad(button, index);
 
-        // ƒ{ƒ^ƒ“‚ÌƒAƒNƒVƒ‡ƒ“ƒŠƒXƒi[‚ğİ’è
+        // ãƒœã‚¿ãƒ³ã®ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒªã‚¹ãƒŠãƒ¼ã‚’è¨­å®š
         button.addMouseListener(
                 new MouseAdapter() {
                     public void mouseReleased(MouseEvent e) {
                         JButton btn = (JButton)e.getSource();
                         btn.setText(CommonConstant.BUTTON_INIT);
-                        System.out.println("ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚Ü‚µ‚½B”Õ–Ê‚ğ‰Šú‰»‚µ‚Ü‚·B");
+                        System.out.println("ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œã¾ã—ãŸã€‚ç›¤é¢ã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚");
                         boad.init();
                     }
                 });
@@ -55,7 +55,7 @@ public class MainPanel extends JPanel {
     }
 
     /**
-     * •`‰æˆ—
+     * æç”»å‡¦ç†
      */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

@@ -19,112 +19,112 @@ public class MainBoad extends JPanel implements MouseListener {
 
     private static final long serialVersionUID = 1L;
 
-    /** ”Õ–Ê‚Ìó‘Ô */
+    /** ç›¤é¢ã®çŠ¶æ…‹ */
     private static final int BOAD_STATE_NONE = 0;
     private static final int BOAD_STATE_BOMB = 9;
     private static final int BOAD_STATE_WALL = 99;
 
-    /** ƒJƒo[‚Ìó‘Ô */
+    /** ã‚«ãƒãƒ¼ã®çŠ¶æ…‹ */
     private static final int COVER_STATE_NONE = -1;
     private static final int COVER_STATE_PULL = 0;
     //private static final int COVER_STATE_DENT = 1;
     private static final int COVER_STATE_FLAG = 2;
     private static final int COVER_STATE_QUES = 3;
 
-    /** üˆÍ8•ûŒü‚ÌQÆx•ûŒü */
+    /** å‘¨å›²8æ–¹å‘ã®å‚ç…§xæ–¹å‘ */
     private static final int[] DIRECTION_X = { 0,  1, 1, 1, 0, -1, -1, -1};
-    /** üˆÍ8•ûŒü‚ÌQÆy•ûŒü */
+    /** å‘¨å›²8æ–¹å‘ã®å‚ç…§yæ–¹å‘ */
     private static final int[] DIRECTION_Y = {-1, -1, 0, 1, 1,  1,  0, -1};
 
-    /** ”Õ–Ê‰æ‘œ“Ç‚İ‚İˆÊ’u—p’è”  */
+    /** ç›¤é¢ç”»åƒèª­ã¿è¾¼ã¿ä½ç½®ç”¨å®šæ•°  */
     private static final int IMAGE_BOAD  = 0;
-    /** ƒJƒo[‰æ‘œ“Ç‚İ‚İˆÊ’u—p’è” */
+    /** ã‚«ãƒãƒ¼ç”»åƒèª­ã¿è¾¼ã¿ä½ç½®ç”¨å®šæ•° */
     private static final int IMAGE_COVER = 30;
 
-    /** ƒƒCƒ“ƒ{ƒ^ƒ“ */
+    /** ãƒ¡ã‚¤ãƒ³ãƒœã‚¿ãƒ³ */
     private JButton mainButton;
 
-    /** x•ûŒü‚Ìƒ^ƒCƒ‹” */
+    /** xæ–¹å‘ã®ã‚¿ã‚¤ãƒ«æ•° */
     private int tileX;
-    /** y•ûŒü‚Ìƒ^ƒCƒ‹” */
+    /** yæ–¹å‘ã®ã‚¿ã‚¤ãƒ«æ•° */
     private int tileY;
-    /** ƒ^ƒCƒ‹‚Ìˆê•Ó‚Ì‘å‚«‚³ */
+    /** ã‚¿ã‚¤ãƒ«ã®ä¸€è¾ºã®å¤§ãã• */
     private int tileSize;
-    /** ”š’e‚ÌŒÂ” */
+    /** çˆ†å¼¾ã®å€‹æ•° */
     private int bombNum;
-    /** ƒQ[ƒ€ƒNƒŠƒAğŒ */
+    /** ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢æ¡ä»¶ */
     private int clearNum;
 
-    /** ”Õ–Ê */
+    /** ç›¤é¢ */
     private int[][] boad;
 
-    /** ƒJƒo[ */
+    /** ã‚«ãƒãƒ¼ */
     private int[][] cover;
 
-    /** ‰‰ñƒNƒŠƒbƒNƒtƒ‰ƒO */
+    /** åˆå›ã‚¯ãƒªãƒƒã‚¯ãƒ•ãƒ©ã‚° */
     private boolean clickFlag;
 
-    /** ƒ}ƒEƒXƒhƒ‰ƒbƒOƒtƒ‰ƒO */
+    /** ãƒã‚¦ã‚¹ãƒ‰ãƒ©ãƒƒã‚°ãƒ•ãƒ©ã‚° */
     private boolean dragFlag;
 
-    /** ”Õ–Ê‰æ‘œƒCƒ[ƒW */
+    /** ç›¤é¢ç”»åƒã‚¤ãƒ¡ãƒ¼ã‚¸ */
     private Image image;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     public MainBoad(JButton btn, int index) {
 
-        // İ’èMAP‚ğæ“¾
+        // è¨­å®šMAPã‚’å–å¾—
         Map<String, Integer> settingMap = CommonConstant.SETTING_LIST.get(index);
 
-        // x•ûŒü‚Ìƒ^ƒCƒ‹”‚ğæ“¾
+        // xæ–¹å‘ã®ã‚¿ã‚¤ãƒ«æ•°ã‚’å–å¾—
         tileX = settingMap.get(CommonConstant.TILE_X);
-        // y•ûŒü‚Ìƒ^ƒCƒ‹”‚ğæ“¾
+        // yæ–¹å‘ã®ã‚¿ã‚¤ãƒ«æ•°ã‚’å–å¾—
         tileY = settingMap.get(CommonConstant.TILE_Y);
-        // ƒ^ƒCƒ‹‚Ìˆê•Ó‚Ì‘å‚«‚³‚ğæ“¾
+        // ã‚¿ã‚¤ãƒ«ã®ä¸€è¾ºã®å¤§ãã•ã‚’å–å¾—
         tileSize = settingMap.get(CommonConstant.TILE_SIZE);
-        // ”š’e‚ÌŒÂ”‚ğæ“¾
+        // çˆ†å¼¾ã®å€‹æ•°ã‚’å–å¾—
         bombNum = settingMap.get(CommonConstant.BOMB_NUM);
-        // ƒQ[ƒ€ƒNƒŠƒAğŒ‚ğİ’è
+        // ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢æ¡ä»¶ã‚’è¨­å®š
         clearNum = (tileX * tileY) - bombNum;
 
-        // ƒpƒlƒ‹‚Ì„§ƒTƒCƒY‚ğİ’è
+        // ãƒ‘ãƒãƒ«ã®æ¨å¥¨ã‚µã‚¤ã‚ºã‚’è¨­å®š
         setPreferredSize(new Dimension(tileX * tileSize, tileY * tileSize));
 
-        // ƒƒCƒ“ƒ{ƒ^ƒ“‚ğİ’è
+        // ãƒ¡ã‚¤ãƒ³ãƒœã‚¿ãƒ³ã‚’è¨­å®š
         mainButton = btn;
 
-        // ”Õ–Ê‚Ì‰Šú‰»‚ğs‚¤
+        // ç›¤é¢ã®åˆæœŸåŒ–ã‚’è¡Œã†
         init();
 
-        // ‰æ‘œ‚Ì“Ç‚İ‚İ‚ğs‚¤
+        // ç”»åƒã®èª­ã¿è¾¼ã¿ã‚’è¡Œã†
         loadImage();
 
-        // MouseListener‚ğİ’è
+        // MouseListenerã‚’è¨­å®š
         addMouseListener(this);
     }
 
     /**
-     * ”Õ–Ê‚Ì‰Šú‰»ˆ—‚ğs‚¤B
+     * ç›¤é¢ã®åˆæœŸåŒ–å‡¦ç†ã‚’è¡Œã†ã€‚
      */
     public void init() {
 
-        // ”Õ–Ê‚Ì”z—ñ‚ğ¶¬
+        // ç›¤é¢ã®é…åˆ—ã‚’ç”Ÿæˆ
         boad  = new int[tileY+2][tileX+2];
-        // ƒJƒo[‚Ì”z—ñ‚ğ¶¬
+        // ã‚«ãƒãƒ¼ã®é…åˆ—ã‚’ç”Ÿæˆ
         cover = new int[tileY+2][tileX+2];
 
         for(int i=0; i<boad.length; i++) {
             for(int j=0; j<boad[i].length; j++) {
-                // ”Õ–Ê‚Ì‰Šú‰»
+                // ç›¤é¢ã®åˆæœŸåŒ–
                 boad[i][j] = BOAD_STATE_NONE;
-                // ƒJƒo[‚Ì‰Šú‰»
+                // ã‚«ãƒãƒ¼ã®åˆæœŸåŒ–
                 cover[i][j] = COVER_STATE_PULL;
             }
         }
 
-        // ”Õ–Ê‚É•Ç‚ğİ’è
+        // ç›¤é¢ã«å£ã‚’è¨­å®š
         for(int i=0; i<boad.length; i++) {
             boad[i][0] = BOAD_STATE_WALL;
             boad[i][boad[i].length-1] = BOAD_STATE_WALL;
@@ -134,81 +134,81 @@ public class MainBoad extends JPanel implements MouseListener {
             boad[boad[0].length-1][j] = BOAD_STATE_WALL;
         }
 
-        // ‰‰ñƒNƒŠƒbƒNƒtƒ‰ƒO‚ğ‰Šú‰»‚·‚é
+        // åˆå›ã‚¯ãƒªãƒƒã‚¯ãƒ•ãƒ©ã‚°ã‚’åˆæœŸåŒ–ã™ã‚‹
         clickFlag = false;
 
-        System.out.println("”Õ–Ê‚Ì‰Šú‰»Š®—¹");
+        System.out.println("ç›¤é¢ã®åˆæœŸåŒ–å®Œäº†");
 
         repaint();
     }
 
     /**
-     * ”š’e‚ğƒZƒbƒg‚·‚éB
+     * çˆ†å¼¾ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚
      *
-     * @param x ‰‰ñƒNƒŠƒbƒNxÀ•W
-     * @param y ‰‰ñƒNƒŠƒbƒNyÀ•W
+     * @param x åˆå›ã‚¯ãƒªãƒƒã‚¯xåº§æ¨™
+     * @param y åˆå›ã‚¯ãƒªãƒƒã‚¯yåº§æ¨™
      */
     private void setBomb(int x, int y) {
 
         Random rand = new Random();
 
         for(int i=0; i<bombNum; i++) {
-            // —”‚Å”š’e‚Ìx,yÀ•W‚ğæ“¾
+            // ä¹±æ•°ã§çˆ†å¼¾ã®x,yåº§æ¨™ã‚’å–å¾—
             int bombX = rand.nextInt(tileX - 2) + 1;
             int bombY = rand.nextInt(tileY - 2) + 1;
 
-            // æ“¾‚µ‚½x,yÀ•W‚ª‰‰ñƒNƒŠƒbƒNÀ•W‚Ìê‡‚Íæ“¾‚µ’¼‚µ
+            // å–å¾—ã—ãŸx,yåº§æ¨™ãŒåˆå›ã‚¯ãƒªãƒƒã‚¯åº§æ¨™ã®å ´åˆã¯å–å¾—ã—ç›´ã—
             if(bombX == x && bombY == y) {
-                System.out.println("x:" + bombX + ",y:" + bombY + "‚Í‰‰ñƒNƒŠƒbƒNÀ•W‚È‚Ì‚Å‚â‚è’¼‚µ‚Ü‚·B");
+                System.out.println("x:" + bombX + ",y:" + bombY + "ã¯åˆå›ã‚¯ãƒªãƒƒã‚¯åº§æ¨™ãªã®ã§ã‚„ã‚Šç›´ã—ã¾ã™ã€‚");
                 i--;
                 continue;
             }
 
-            // æ“¾‚µ‚½x,yÀ•W‚ÉŠù‚É”š’e‚ª‚ ‚Á‚½ê‡‚Íæ“¾‚µ’¼‚µ
+            // å–å¾—ã—ãŸx,yåº§æ¨™ã«æ—¢ã«çˆ†å¼¾ãŒã‚ã£ãŸå ´åˆã¯å–å¾—ã—ç›´ã—
             if(boad[bombY][bombX] == BOAD_STATE_BOMB) {
-                System.out.println("x:" + bombX + ",y:" + bombY + "‚ÉŠù‚É”š’e‚ªİ’è‚³‚ê‚Ä‚¢‚é‚Ì‚Å‚â‚è’¼‚µ‚Ü‚·B");
+                System.out.println("x:" + bombX + ",y:" + bombY + "ã«æ—¢ã«çˆ†å¼¾ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã®ã§ã‚„ã‚Šç›´ã—ã¾ã™ã€‚");
                 i--;
                 continue;
             }
-            // ”š’e‚ğ”Õ–Ê‚Éİ’è
+            // çˆ†å¼¾ã‚’ç›¤é¢ã«è¨­å®š
             boad[bombY][bombX] = BOAD_STATE_BOMB;
 
-            System.out.println("”š’e‚ğx:" + bombX + ",y:" + bombY + "‚ÉƒZƒbƒg‚µ‚Ü‚µ‚½B");
+            System.out.println("çˆ†å¼¾ã‚’x:" + bombX + ",y:" + bombY + "ã«ã‚»ãƒƒãƒˆã—ã¾ã—ãŸã€‚");
         }
     }
 
     /**
-     * ”Õ–Ê‚Ì’l‚ğŒvZ‚·‚éB
+     * ç›¤é¢ã®å€¤ã‚’è¨ˆç®—ã™ã‚‹ã€‚
      */
     private void calcBoad() {
 
-        System.out.println("”Õ–Ê‚Ì’l‚ÌŒvZ‚ğŠJn‚µ‚Ü‚·B");
+        System.out.println("ç›¤é¢ã®å€¤ã®è¨ˆç®—ã‚’é–‹å§‹ã—ã¾ã™ã€‚");
 
         for(int i=1; i<boad.length-1; i++) {
             for(int j=1; j<boad[i].length-1; j++) {
 
-                // ”š’e‚Ìƒ}ƒX‚ÍƒXƒLƒbƒv
+                // çˆ†å¼¾ã®ãƒã‚¹ã¯ã‚¹ã‚­ãƒƒãƒ—
                 if(BOAD_STATE_BOMB == boad[i][j]) {
                     continue;
                 }
 
-                // üˆÍ8•ûŒü‚Ì”š’e‚ÌŒÂ”‚ğ”‚¦‚é
+                // å‘¨å›²8æ–¹å‘ã®çˆ†å¼¾ã®å€‹æ•°ã‚’æ•°ãˆã‚‹
                 int bomb_num = 0;
                 for(int k=0; k<8; k++) {
                     if(boad[i+DIRECTION_Y[k]][j+DIRECTION_X[k]] == BOAD_STATE_BOMB) {
                         bomb_num++;
                     }
                 }
-                // ”Õ–Ê‚É”š’e‚ÌŒÂ”‚ğƒZƒbƒg‚·‚é
+                // ç›¤é¢ã«çˆ†å¼¾ã®å€‹æ•°ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
                 boad[i][j] = bomb_num;
             }
         }
 
-        System.out.println("”Õ–Ê‚Ì’l‚ÌŒvZ‚ªŠ®—¹‚µ‚Ü‚µ‚½B");
+        System.out.println("ç›¤é¢ã®å€¤ã®è¨ˆç®—ãŒå®Œäº†ã—ã¾ã—ãŸã€‚");
     }
 
     /**
-     * •`‰æˆ—‚ğs‚¤B
+     * æç”»å‡¦ç†ã‚’è¡Œã†ã€‚
      */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -217,7 +217,7 @@ public class MainBoad extends JPanel implements MouseListener {
             for(int j=1; j<boad[i].length-1; j++) {
 
                 if(cover[i][j] == COVER_STATE_NONE) {
-                    // ”Õ–Ê‚ğ•`‰æ
+                    // ç›¤é¢ã‚’æç”»
                     g.drawImage(image,
                             tileSize * j - tileSize,
                             tileSize * i - tileSize,
@@ -229,7 +229,7 @@ public class MainBoad extends JPanel implements MouseListener {
                             IMAGE_BOAD + tileSize,
                             null);
                 } else {
-                    // ƒJƒo[‚ğ•`‰æ
+                    // ã‚«ãƒãƒ¼ã‚’æç”»
                     g.drawImage(image,
                             tileSize * j - tileSize,
                             tileSize * i - tileSize,
@@ -246,33 +246,33 @@ public class MainBoad extends JPanel implements MouseListener {
     }
 
     /**
-     * ƒsƒNƒZƒ‹À•W‚ğƒOƒŠƒbƒhÀ•W‚Ö•ÏŠ·‚·‚é
+     * ãƒ”ã‚¯ã‚»ãƒ«åº§æ¨™ã‚’ã‚°ãƒªãƒƒãƒ‰åº§æ¨™ã¸å¤‰æ›ã™ã‚‹
      *
-     * @param point ƒsƒNƒZƒ‹À•W
-     * @return ƒOƒŠƒbƒhÀ•W
+     * @param point ãƒ”ã‚¯ã‚»ãƒ«åº§æ¨™
+     * @return ã‚°ãƒªãƒƒãƒ‰åº§æ¨™
      */
     private int pixelToGrid(int point) {
         return (point / tileSize) + 1;
     }
 
     /**
-     * Ä‹A“I‚ÉŒÄ‚Ño‚³‚ê‚ÄA—×Ú‚·‚éƒ[ƒ‚Ìƒ}ƒX‚ğ‘S‚ÄƒI[ƒvƒ“‚·‚éB
+     * å†å¸°çš„ã«å‘¼ã³å‡ºã•ã‚Œã¦ã€éš£æ¥ã™ã‚‹ã‚¼ãƒ­ã®ãƒã‚¹ã‚’å…¨ã¦ã‚ªãƒ¼ãƒ—ãƒ³ã™ã‚‹ã€‚
      *
-     * @param x xÀ•W
-     * @param y yÀ•W
+     * @param x xåº§æ¨™
+     * @param y yåº§æ¨™
      */
     private void openZeroTile(int x, int y) {
 
-        // ƒJƒo[‚ğƒI[ƒvƒ“‚·‚é
+        // ã‚«ãƒãƒ¼ã‚’ã‚ªãƒ¼ãƒ—ãƒ³ã™ã‚‹
         cover[y][x] = COVER_STATE_NONE;
 
-        // üˆÍ8•ûŒü‚ğ‘–¸‚·‚é
+        // å‘¨å›²8æ–¹å‘ã‚’èµ°æŸ»ã™ã‚‹
         for(int i=0; i<8; i++) {
 
-            // ƒJƒo[‚ªƒI[ƒvƒ“‚³‚ê‚Ä‚¢‚È‚¢ê‡
+            // ã‚«ãƒãƒ¼ãŒã‚ªãƒ¼ãƒ—ãƒ³ã•ã‚Œã¦ã„ãªã„å ´åˆ
             if(cover[y+DIRECTION_Y[i]][x+DIRECTION_X[i]] != COVER_STATE_NONE) {
 
-                // ‘–¸ƒ}ƒX‚Ì’l‚ªƒ[ƒ‚Ìê‡
+                // èµ°æŸ»ãƒã‚¹ã®å€¤ãŒã‚¼ãƒ­ã®å ´åˆ
                 if(boad[y+DIRECTION_Y[i]][x+DIRECTION_X[i]] == BOAD_STATE_NONE) {
                     openZeroTile(x+DIRECTION_X[i], y+DIRECTION_Y[i]);
                 } else {
@@ -283,27 +283,27 @@ public class MainBoad extends JPanel implements MouseListener {
     }
 
     /**
-     * ƒQ[ƒ€ƒI[ƒo[ˆ—‚ğs‚¤B
+     * ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼å‡¦ç†ã‚’è¡Œã†ã€‚
      */
     private void gameOver() {
 
-        // ƒJƒo[‚ğ‘S‚ÄƒI[ƒvƒ“‚·‚é
+        // ã‚«ãƒãƒ¼ã‚’å…¨ã¦ã‚ªãƒ¼ãƒ—ãƒ³ã™ã‚‹
         for(int i=0; i<cover.length; i++) {
             for(int j=0; j<cover[i].length; j++) {
                 cover[i][j] = COVER_STATE_NONE;
             }
         }
 
-        // ƒ{ƒ^ƒ“•\¦‚ğ•ÏX
+        // ãƒœã‚¿ãƒ³è¡¨ç¤ºã‚’å¤‰æ›´
         mainButton.setText(CommonConstant.BUTTON_GAME_OVER);
     }
 
     /**
-     * ƒQ[ƒ€ƒNƒŠƒAˆ—
+     * ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢å‡¦ç†
      */
     private void gameClear() {
 
-        // ƒI[ƒvƒ“‚³‚ê‚Ä‚¢‚éƒJƒo[”‚ğ”‚¦‚é
+        // ã‚ªãƒ¼ãƒ—ãƒ³ã•ã‚Œã¦ã„ã‚‹ã‚«ãƒãƒ¼æ•°ã‚’æ•°ãˆã‚‹
         int cnt = 0;
         for(int i=1; i<cover.length-1; i++) {
             for(int j=1; j<cover[i].length-1; j++) {
@@ -311,84 +311,84 @@ public class MainBoad extends JPanel implements MouseListener {
             }
         }
 
-        System.out.println("ƒI[ƒvƒ“‚³‚ê‚Ä‚¢‚éƒJƒo[”F" + cnt);
-        System.out.println("ƒNƒŠƒAğŒF" + clearNum);
+        System.out.println("ã‚ªãƒ¼ãƒ—ãƒ³ã•ã‚Œã¦ã„ã‚‹ã‚«ãƒãƒ¼æ•°ï¼š" + cnt);
+        System.out.println("ã‚¯ãƒªã‚¢æ¡ä»¶ï¼š" + clearNum);
 
-        // ƒI[ƒvƒ“‚³‚ê‚Ä‚¢ƒJƒo[”‚ªƒNƒŠƒAğŒ‚ğ–‚½‚µ‚Ä‚¢‚È‚¢ê‡
+        // ã‚ªãƒ¼ãƒ—ãƒ³ã•ã‚Œã¦ã„ã‚«ãƒãƒ¼æ•°ãŒã‚¯ãƒªã‚¢æ¡ä»¶ã‚’æº€ãŸã—ã¦ã„ãªã„å ´åˆ
         if(cnt < clearNum) {
             return;
         }
 
-        // ƒ{ƒ^ƒ“•\¦‚ğ•ÏX
+        // ãƒœã‚¿ãƒ³è¡¨ç¤ºã‚’å¤‰æ›´
         mainButton.setText(CommonConstant.BUTTON_GAME_CLEAR);
     }
 
     /**
-     * ƒ}ƒEƒXƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚Ìˆ—
+     * ãƒã‚¦ã‚¹ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸæ™‚ã®å‡¦ç†
      */
     public void mousePressed(MouseEvent e) {
 
         Point point = e.getPoint();
         System.out.println("mousePressed x:" + pixelToGrid((int)point.getX()) + ", y:" + pixelToGrid((int)point.getY()));
 
-        // ƒhƒ‰ƒbƒOƒtƒ‰ƒO‚ğƒIƒ“‚É‚·‚é
+        // ãƒ‰ãƒ©ãƒƒã‚°ãƒ•ãƒ©ã‚°ã‚’ã‚ªãƒ³ã«ã™ã‚‹
         dragFlag = true;
     }
 
     /**
-     * ƒ}ƒEƒXƒ{ƒ^ƒ“‚ª—£‚³‚ê‚½‚Ìˆ—
+     * ãƒã‚¦ã‚¹ãƒœã‚¿ãƒ³ãŒé›¢ã•ã‚ŒãŸæ™‚ã®å‡¦ç†
      */
     public void mouseReleased(MouseEvent e) {
 
-        // ƒOƒŠƒbƒhÀ•W‚ğæ“¾
+        // ã‚°ãƒªãƒƒãƒ‰åº§æ¨™ã‚’å–å¾—
         Point point = e.getPoint();
         int x = pixelToGrid((int)point.getX());
         int y = pixelToGrid((int)point.getY());
         System.out.println("mouseReleased x:" + x + ", y:" + y);
 
-        // ƒ{ƒ^ƒ“‚Ìí—Ş‚ğæ“¾
+        // ãƒœã‚¿ãƒ³ã®ç¨®é¡ã‚’å–å¾—
         int button = e.getButton();
 
-        // ƒhƒ‰ƒbƒOƒtƒ‰ƒO‚ªƒIƒt‚Ìê‡‚Íˆ—‚ğƒXƒLƒbƒv‚·‚é
+        // ãƒ‰ãƒ©ãƒƒã‚°ãƒ•ãƒ©ã‚°ãŒã‚ªãƒ•ã®å ´åˆã¯å‡¦ç†ã‚’ã‚¹ã‚­ãƒƒãƒ—ã™ã‚‹
         if(!dragFlag) {
             return;
         }
 
-        // ¶ƒNƒŠƒbƒN‚Ìê‡
+        // å·¦ã‚¯ãƒªãƒƒã‚¯ã®å ´åˆ
         if(MouseEvent.BUTTON1 == button) {
 
-            // ‰‰ñƒNƒŠƒbƒN‚Ìê‡
+            // åˆå›ã‚¯ãƒªãƒƒã‚¯ã®å ´åˆ
             if(!clickFlag) {
-                // ”š’e‚ğƒZƒbƒg‚·‚é
+                // çˆ†å¼¾ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
                 setBomb(x, y);
-                // ”Õ–Ê‚Ì’l‚ğŒvZ‚·‚é
+                // ç›¤é¢ã®å€¤ã‚’è¨ˆç®—ã™ã‚‹
                 calcBoad();
-                // ƒfƒoƒbƒNî•ñ‚ğo—Í
+                // ãƒ‡ãƒãƒƒã‚¯æƒ…å ±ã‚’å‡ºåŠ›
                 printBoad();
 
                 clickFlag = true;
             }
 
-            // ‘I‘ğƒ}ƒX‚Ì’l‚ªƒ[ƒ‚Ìê‡
+            // é¸æŠãƒã‚¹ã®å€¤ãŒã‚¼ãƒ­ã®å ´åˆ
             if(boad[y][x] == BOAD_STATE_NONE) {
                 openZeroTile(x, y);
-                // ƒQ[ƒ€ƒNƒŠƒAˆ—
+                // ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢å‡¦ç†
                 gameClear();
 
-            // ‘I‘ğƒ}ƒX‚ª”š’e‚Ìê‡
+            // é¸æŠãƒã‚¹ãŒçˆ†å¼¾ã®å ´åˆ
             } else if(boad[y][x] == BOAD_STATE_BOMB) {
-                // ƒQ[ƒ€ƒI[ƒo[ˆ—
+                // ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼å‡¦ç†
                 gameOver();
 
-            // ã‹LˆÈŠO‚Ìê‡
+            // ä¸Šè¨˜ä»¥å¤–ã®å ´åˆ
             } else {
-                // ƒJƒo[‚ğƒI[ƒvƒ“‚·‚é
+                // ã‚«ãƒãƒ¼ã‚’ã‚ªãƒ¼ãƒ—ãƒ³ã™ã‚‹
                 cover[y][x] = COVER_STATE_NONE;
-                // ƒQ[ƒ€ƒNƒŠƒAˆ—
+                // ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢å‡¦ç†
                 gameClear();
             }
 
-        // ‰EƒNƒŠƒbƒN‚Ìê‡
+        // å³ã‚¯ãƒªãƒƒã‚¯ã®å ´åˆ
         } else if(MouseEvent.BUTTON3 == button) {
 
             if(cover[y][x] == COVER_STATE_PULL) {
@@ -402,19 +402,19 @@ public class MainBoad extends JPanel implements MouseListener {
             }
         }
 
-        // ƒhƒ‰ƒbƒOƒtƒ‰ƒO‚ğƒIƒt‚É‚·‚é
+        // ãƒ‰ãƒ©ãƒƒã‚°ãƒ•ãƒ©ã‚°ã‚’ã‚ªãƒ•ã«ã™ã‚‹
         dragFlag = false;
 
         repaint();
     }
 
     /**
-     * ƒ}ƒEƒX‚ªƒNƒŠƒbƒN‚³‚ê‚½‚Ìˆ—
+     * ãƒã‚¦ã‚¹ãŒã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸæ™‚ã®å‡¦ç†
      */
     public void mouseClicked(MouseEvent e) {}
 
     /**
-     * ƒ}ƒEƒXƒ|ƒCƒ“ƒ^‚ªƒRƒ“ƒ|[ƒlƒ“ƒg—Ìˆæ‚É“ü‚Á‚½‚Ìˆ—
+     * ãƒã‚¦ã‚¹ãƒã‚¤ãƒ³ã‚¿ãŒã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆé ˜åŸŸã«å…¥ã£ãŸæ™‚ã®å‡¦ç†
      */
     public void mouseEntered(MouseEvent e) {
 
@@ -424,7 +424,7 @@ public class MainBoad extends JPanel implements MouseListener {
     }
 
     /**
-     * ƒ}ƒEƒXƒ|ƒCƒ“ƒ^‚ªƒRƒ“ƒ|[ƒlƒ“ƒg—Ìˆæ‚©‚ço‚½‚Ìˆ—
+     * ãƒã‚¦ã‚¹ãƒã‚¤ãƒ³ã‚¿ãŒã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆé ˜åŸŸã‹ã‚‰å‡ºãŸæ™‚ã®å‡¦ç†
      */
     public void mouseExited(MouseEvent e) {
 
@@ -432,7 +432,7 @@ public class MainBoad extends JPanel implements MouseListener {
     }
 
     /**
-     * ‰æ‘œ‚ğƒ[ƒh‚·‚é
+     * ç”»åƒã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
      */
     private void loadImage() {
         ImageIcon icon = new ImageIcon("./image/tile.gif");
@@ -440,7 +440,7 @@ public class MainBoad extends JPanel implements MouseListener {
     }
 
     /**
-     * ”Õ–Ê‚Ì’l‚ğƒRƒ“ƒ\[ƒ‹‚Éo—Í‚·‚éiƒfƒoƒbƒN—pj
+     * ç›¤é¢ã®å€¤ã‚’ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã«å‡ºåŠ›ã™ã‚‹ï¼ˆãƒ‡ãƒãƒƒã‚¯ç”¨ï¼‰
      */
     private void printBoad() {
 
