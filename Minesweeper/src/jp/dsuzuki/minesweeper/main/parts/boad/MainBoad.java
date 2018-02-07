@@ -128,7 +128,7 @@ public class MainBoad extends JPanel implements MouseListener {
         }
         for(int j=0; j<boad[0].length; j++) {
             boad[0][j] = BOAD_STATE_WALL;
-            boad[boad[0].length-1][j] = BOAD_STATE_WALL;
+            boad[boad.length-1][j] = BOAD_STATE_WALL;
         }
 
         // 初回クリックフラグを初期化する
@@ -207,6 +207,7 @@ public class MainBoad extends JPanel implements MouseListener {
     /**
      * 描画処理を行う。
      */
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -323,6 +324,7 @@ public class MainBoad extends JPanel implements MouseListener {
     /**
      * マウスボタンが押された時の処理
      */
+    @Override
     public void mousePressed(MouseEvent e) {
 
         Point point = e.getPoint();
@@ -335,6 +337,7 @@ public class MainBoad extends JPanel implements MouseListener {
     /**
      * マウスボタンが離された時の処理
      */
+    @Override
     public void mouseReleased(MouseEvent e) {
 
         // グリッド座標を取得
@@ -408,11 +411,13 @@ public class MainBoad extends JPanel implements MouseListener {
     /**
      * マウスがクリックされた時の処理
      */
+    @Override
     public void mouseClicked(MouseEvent e) {}
 
     /**
      * マウスポインタがコンポーネント領域に入った時の処理
      */
+    @Override
     public void mouseEntered(MouseEvent e) {
 
         if(!dragFlag) {
@@ -423,6 +428,7 @@ public class MainBoad extends JPanel implements MouseListener {
     /**
      * マウスポインタがコンポーネント領域から出た時の処理
      */
+    @Override
     public void mouseExited(MouseEvent e) {
 
         dragFlag = false;
