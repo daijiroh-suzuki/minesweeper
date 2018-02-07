@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ‹¤’Ê’è”ƒNƒ‰ƒX
+ * å…±é€šå®šæ•°ã‚¯ãƒ©ã‚¹
  *
  * @author daijiroh
  *
@@ -14,44 +14,44 @@ import java.util.Map;
 public class CommonConstant {
 
     /*
-     * ‰‹‰F9~9‚Ìƒ}ƒX‚É10ŒÂ‚Ì’n—‹
-     * ’†‹‰F16~16‚Ìƒ}ƒX‚É40ŒÂ‚Ì’n—‹
-     * ã‹‰F30~16‚Ìƒ}ƒX‚É99ŒÂ‚Ì’n—‹
+     * åˆç´šï¼š9Ã—9ã®ãƒã‚¹ã«10å€‹ã®åœ°é›·
+     * ä¸­ç´šï¼š16Ã—16ã®ãƒã‚¹ã«40å€‹ã®åœ°é›·
+     * ä¸Šç´šï¼š30Ã—16ã®ãƒã‚¹ã«99å€‹ã®åœ°é›·
      */
 
-    /** ƒtƒŒ[ƒ€ƒ^ƒCƒgƒ‹ */
-    public static final String FRAME_TITLE = "ƒ}ƒCƒ“ƒXƒC[ƒp[";
+    /** ãƒ•ãƒ¬ãƒ¼ãƒ ã‚¿ã‚¤ãƒˆãƒ« */
+    public static final String FRAME_TITLE = "ãƒã‚¤ãƒ³ã‚¹ã‚¤ãƒ¼ãƒ‘ãƒ¼";
 
-    /** ƒ{ƒ^ƒ“ƒ‰ƒxƒ‹F‰Šú’l */
-    public static final String BUTTON_INIT = "(EQE)";
-    /** ƒ{ƒ^ƒ“ƒ‰ƒxƒ‹FƒQ[ƒ€ƒI[ƒo[ */
-    public static final String BUTTON_GAME_OVER = "(L¥ƒÖ¥`) ¼®ÎŞ°İ";
-    /** ƒ{ƒ^ƒ“ƒ‰ƒxƒ‹FƒQ[ƒ€ƒNƒŠƒA */
-    public static final String BUTTON_GAME_CLEAR = "(`¥ƒÖ¥L)¼¬·°İ";
+    /** ãƒœã‚¿ãƒ³ãƒ©ãƒ™ãƒ«ï¼šåˆæœŸå€¤ */
+    public static final String BUTTON_INIT = "(ãƒ»ï¼¿ãƒ»)";
+    /** ãƒœã‚¿ãƒ³ãƒ©ãƒ™ãƒ«ï¼šã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ */
+    public static final String BUTTON_GAME_OVER = "(Â´ï½¥Ï‰ï½¥`) ï½¼ï½®ï¾ï¾ï½°ï¾";
+    /** ãƒœã‚¿ãƒ³ãƒ©ãƒ™ãƒ«ï¼šã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢ */
+    public static final String BUTTON_GAME_CLEAR = "(`ï½¥Ï‰ï½¥Â´)ï½¼ï½¬ï½·ï½°ï¾";
 
-    /** İ’èƒŠƒXƒg */
+    /** è¨­å®šãƒªã‚¹ãƒˆ */
     public static final List<Map<String, Integer>> SETTING_LIST = new ArrayList<Map<String, Integer>>();
 
-    /** ‰‹‰İ’èƒCƒ“ƒfƒbƒNƒX */
+    /** åˆç´šè¨­å®šã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ */
     public static final int BEGINNER_INDEX = 0;
-    /** ’†‹‰İ’èƒCƒ“ƒfƒbƒNƒX */
+    /** ä¸­ç´šè¨­å®šã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ */
     public static final int MIDDLE_INDEX = 1;
-    /** ã‹‰İ’èƒCƒ“ƒfƒbƒNƒX */
+    /** ä¸Šç´šè¨­å®šã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ */
     public static final int ADVANCED_INDEX = 2;
-    /** ƒJƒXƒ^ƒ€İ’èƒCƒ“ƒfƒbƒNƒX */
+    /** ã‚«ã‚¹ã‚¿ãƒ è¨­å®šã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ */
     public static final int CUSTOM_INDEX = 3;
 
-    /** y•ûŒü‚Ìƒ^ƒCƒ‹” */
+    /** yæ–¹å‘ã®ã‚¿ã‚¤ãƒ«æ•° */
     public static final String TILE_Y = "TILE_Y";
-    /** x•ûŒü‚Ìƒ^ƒCƒ‹” */
+    /** xæ–¹å‘ã®ã‚¿ã‚¤ãƒ«æ•° */
     public static final String TILE_X = "TILE_X";
-    /** ƒ^ƒCƒ‹‚Ìˆê•Ó‚Ì‘å‚«‚³ */
+    /** ã‚¿ã‚¤ãƒ«ã®ä¸€è¾ºã®å¤§ãã• */
     public static final String TILE_SIZE = "TILE_SIZE";
-    /** ”š’e‚ÌŒÂ” */
+    /** çˆ†å¼¾ã®å€‹æ•° */
     public static final String BOMB_NUM = "BOMB_NUM";
 
     static {
-        // ‰‹‰F9~9‚Ìƒ}ƒX‚É10ŒÂ‚Ì’n—‹
+        // åˆç´šï¼š9Ã—9ã®ãƒã‚¹ã«10å€‹ã®åœ°é›·
         Map<String, Integer> beginner = new HashMap<String, Integer>();
         beginner.put(CommonConstant.TILE_X,    new Integer(9));
         beginner.put(CommonConstant.TILE_Y,    new Integer(9));
@@ -59,7 +59,7 @@ public class CommonConstant {
         beginner.put(CommonConstant.BOMB_NUM,  new Integer(10));
         SETTING_LIST.add(CommonConstant.BEGINNER_INDEX, beginner);
 
-        // ’†‹‰F16~16‚Ìƒ}ƒX‚É40ŒÂ‚Ì’n—‹
+        // ä¸­ç´šï¼š16Ã—16ã®ãƒã‚¹ã«40å€‹ã®åœ°é›·
         Map<String, Integer> middle = new HashMap<String, Integer>();
         middle.put(CommonConstant.TILE_X,    new Integer(16));
         middle.put(CommonConstant.TILE_Y,    new Integer(16));
@@ -67,7 +67,7 @@ public class CommonConstant {
         middle.put(CommonConstant.BOMB_NUM,  new Integer(40));
         SETTING_LIST.add(CommonConstant.MIDDLE_INDEX, middle);
 
-        // ã‹‰F30~16‚Ìƒ}ƒX‚É99ŒÂ‚Ì’n—‹
+        // ä¸Šç´šï¼š30Ã—16ã®ãƒã‚¹ã«99å€‹ã®åœ°é›·
         Map<String, Integer> advanced = new HashMap<String, Integer>();
         advanced.put(CommonConstant.TILE_X,    new Integer(30));
         advanced.put(CommonConstant.TILE_Y,    new Integer(16));

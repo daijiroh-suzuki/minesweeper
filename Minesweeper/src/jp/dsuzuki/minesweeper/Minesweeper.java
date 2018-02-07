@@ -10,7 +10,7 @@ import javax.swing.JMenuItem;
 import jp.dsuzuki.minesweeper.common.CommonConstant;
 
 /**
- * ƒ}ƒCƒ“ƒXƒC[ƒp[‚ÌƒtƒŒ[ƒ€ƒNƒ‰ƒX
+ * ãƒã‚¤ãƒ³ã‚¹ã‚¤ãƒ¼ãƒ‘ãƒ¼ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã‚¯ãƒ©ã‚¹
  * @author daijiroh
  *
  */
@@ -19,62 +19,62 @@ public class Minesweeper extends JFrame {
     private static final long serialVersionUID = 1L;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
      */
     public Minesweeper() {
 
-        // ƒ^ƒCƒgƒ‹‚ğİ’è‚·‚é
+        // ã‚¿ã‚¤ãƒˆãƒ«ã‚’è¨­å®šã™ã‚‹
         setTitle(CommonConstant.FRAME_TITLE);
 
-        // ƒƒjƒ…[ƒo[‚ğ¶¬
+        // ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒãƒ¼ã‚’ç”Ÿæˆ
         JMenuBar menubar = new JMenuBar();
 
-        // ƒƒjƒ…[‚ğ¶¬
-        JMenu menu1 = new JMenu("ƒtƒ@ƒCƒ‹");
-        JMenu menu2 = new JMenu("•ÒW");
+        // ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’ç”Ÿæˆ
+        JMenu menu1 = new JMenu("ãƒ•ã‚¡ã‚¤ãƒ«");
+        JMenu menu2 = new JMenu("ç·¨é›†");
 
-        // ƒƒjƒ…[ƒAƒCƒeƒ€‚ğ¶¬
-        JMenuItem menuitem1 = new JMenuItem("V‹K");
-        JMenuItem menuitem2 = new JMenuItem("I—¹");
+        // ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚¢ã‚¤ãƒ†ãƒ ã‚’ç”Ÿæˆ
+        JMenuItem menuitem1 = new JMenuItem("æ–°è¦");
+        JMenuItem menuitem2 = new JMenuItem("çµ‚äº†");
 
-        // ƒƒjƒ…[‚Éƒƒjƒ…[ƒAƒCƒeƒ€‚ğ’Ç‰Á
+        // ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã«ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚¢ã‚¤ãƒ†ãƒ ã‚’è¿½åŠ 
         menu1.add(menuitem1);
         menu1.add(menuitem2);
 
-        // ƒƒjƒ…[ƒo[‚Éƒƒjƒ…[‚ğ’Ç‰Á
+        // ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒãƒ¼ã«ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’è¿½åŠ 
         menubar.add(menu1);
         menubar.add(menu2);
 
-        // ƒƒjƒ…[ƒo[‚ğƒtƒŒ[ƒ€‚É’Ç‰Á
+        // ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒãƒ¼ã‚’ãƒ•ãƒ¬ãƒ¼ãƒ ã«è¿½åŠ 
         setJMenuBar(menubar);
 
-        // ƒƒCƒ“ƒpƒlƒ‹‚ğ¶¬‚µ‚ÄƒtƒŒ[ƒ€‚É’Ç‰Á
+        // ãƒ¡ã‚¤ãƒ³ãƒ‘ãƒãƒ«ã‚’ç”Ÿæˆã—ã¦ãƒ•ãƒ¬ãƒ¼ãƒ ã«è¿½åŠ 
         MainPanel panel = new MainPanel(CommonConstant.BEGINNER_INDEX);
         Container contentPane = getContentPane();
         contentPane.add(panel);
 
-        // ƒpƒlƒ‹ƒTƒCƒY‚É‡‚í‚¹‚ÄƒtƒŒ[ƒ€ƒTƒCƒY‚ğ©“®İ’è
+        // ãƒ‘ãƒãƒ«ã‚µã‚¤ã‚ºã«åˆã‚ã›ã¦ãƒ•ãƒ¬ãƒ¼ãƒ ã‚µã‚¤ã‚ºã‚’è‡ªå‹•è¨­å®š
         pack();
     }
 
     /**
-     * ƒGƒ“ƒgƒŠƒ|ƒCƒ“ƒg
+     * ã‚¨ãƒ³ãƒˆãƒªãƒã‚¤ãƒ³ãƒˆ
      *
      * @param args
      */
     public static void main(String args[]) {
 
-        // ƒtƒŒ[ƒ€‚ğ¶¬
+        // ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’ç”Ÿæˆ
         Minesweeper frame = new Minesweeper();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // ƒtƒŒ[ƒ€‚ğ‰æ–Ê‚Ì’†‰›‚É•\¦
+        // ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’ç”»é¢ã®ä¸­å¤®ã«è¡¨ç¤º
         frame.setLocationRelativeTo(null);
 
-        // ƒtƒŒ[ƒ€ƒTƒCƒY‚ğ•ÏX•s‰Â‚É‚·‚é
+        // ãƒ•ãƒ¬ãƒ¼ãƒ ã‚µã‚¤ã‚ºã‚’å¤‰æ›´ä¸å¯ã«ã™ã‚‹
         frame.setResizable(false);
 
-        // ƒtƒŒ[ƒ€‚ğ•\¦‚·‚é
+        // ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’è¡¨ç¤ºã™ã‚‹
         frame.setVisible(true);
     }
 }
