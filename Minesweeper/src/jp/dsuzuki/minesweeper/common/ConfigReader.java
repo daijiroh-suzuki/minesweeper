@@ -1,6 +1,5 @@
 package jp.dsuzuki.minesweeper.common;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -13,7 +12,7 @@ import java.util.Properties;
 public class ConfigReader {
 
     /** バージョン設定ファイル */
-    private static final String VERSION_FILE = "version.properties";
+    private static final String VERSION_FILE = "/version.properties";
 
     private static ConfigReader instance = new ConfigReader();
 
@@ -27,12 +26,12 @@ public class ConfigReader {
 
         properties = new Properties();
         try {
-            InputStream inputStream = new FileInputStream(VERSION_FILE);
+            InputStream inputStream = this.getClass().getResourceAsStream(VERSION_FILE);
             properties.load(inputStream);
             inputStream.close();
 
         } catch (Exception e) {
-            System.out.println(e.getStackTrace());
+            System.out.println(e.getMessage());
         }
     }
 

@@ -77,6 +77,7 @@ public class Minesweeper extends JFrame implements ActionListener {
         // メニューアイテムにアクションリスナーを設定
         mniNew.addActionListener(this);
         mniExit.addActionListener(this);
+        mniVersion.addActionListener(this);
         mniDifficulty1.addActionListener(this);
         mniDifficulty2.addActionListener(this);
         mniDifficulty3.addActionListener(this);
