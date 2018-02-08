@@ -152,7 +152,7 @@ public class Minesweeper extends JFrame implements ActionListener {
             break;
         case CommonConstant.MENUITEM_VERSION:
             JOptionPane.showMessageDialog(this,
-                    "バージョンID" + ConfigReader.getInstance().getProperty(CommonConstant.KEY_VERSIONID));
+                    "バージョンID：" + ConfigReader.getInstance().getProperty(CommonConstant.KEY_VERSIONID));
             break;
         }
     }
