@@ -26,6 +26,9 @@ public class Minesweeper extends JFrame implements ActionListener {
 
     private static final long serialVersionUID = 1L;
 
+    /** 選択中の難易度 */
+    private Difficulty selectedDifficulty;
+
     /**
      * コンストラクタ
      */
@@ -34,11 +37,14 @@ public class Minesweeper extends JFrame implements ActionListener {
         // タイトルを設定する
         setTitle(CommonConstant.FRAME_TITLE);
 
+        // 難易度を設定
+        selectedDifficulty = Difficulty.BEGINNER;
+
         // メニューバーをフレームに追加
         setMenuBar();
 
         // メインパネルをフレームに追加
-        setMainPanel(Difficulty.BEGINNER);
+        setMainPanel(selectedDifficulty);
     }
 
     /**
@@ -136,15 +142,19 @@ public class Minesweeper extends JFrame implements ActionListener {
         switch(command) {
         case CommonConstant.MENUITEM_NEW:
             // 選択中の難易度で初期化
+            setMainPanel(selectedDifficulty);
             break;
         case CommonConstant.MENUITEM_DIFFICULTY_1:
-            setMainPanel(Difficulty.BEGINNER);
+            selectedDifficulty = Difficulty.BEGINNER;
+            setMainPanel(selectedDifficulty);
             break;
         case CommonConstant.MENUITEM_DIFFICULTY_2:
-            setMainPanel(Difficulty.MIDDLE);
+            selectedDifficulty = Difficulty.MIDDLE;
+            setMainPanel(selectedDifficulty);
             break;
         case CommonConstant.MENUITEM_DIFFICULTY_3:
-            setMainPanel(Difficulty.ADVANCED);
+            selectedDifficulty = Difficulty.ADVANCED;
+            setMainPanel(selectedDifficulty);
             break;
         case CommonConstant.MENUITEM_DIFFICULTY_4:
             break;
