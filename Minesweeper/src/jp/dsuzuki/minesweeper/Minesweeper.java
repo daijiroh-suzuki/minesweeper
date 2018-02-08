@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButtonMenuItem;
 
 import jp.dsuzuki.minesweeper.common.CommonConstant;
@@ -48,19 +49,19 @@ public class Minesweeper extends JFrame implements ActionListener {
         JMenuBar menubar = new JMenuBar();
 
         // メニューを生成
-        JMenu mnFile = new JMenu("ファイル");
-        JMenu mnHelp = new JMenu("ヘルプ");
+        JMenu mnFile = new JMenu(CommonConstant.MENU_FILE);
+        JMenu mnHelp = new JMenu(CommonConstant.MENU_HELP);
 
         // メニューアイテムを生成
-        JMenuItem mniNew = new JMenuItem("新規");
-        JMenuItem mniExit = new JMenuItem("終了");
-        JMenuItem mniVersion = new JMenuItem("バージョン情報");
+        JMenuItem mniNew = new JMenuItem(CommonConstant.MENUITEM_NEW);
+        JMenuItem mniExit = new JMenuItem(CommonConstant.MENUITEM_EXIT);
+        JMenuItem mniVersion = new JMenuItem(CommonConstant.MENUITEM_VERSION);
 
         // 難易度選択メニューアイテム生成
-        JRadioButtonMenuItem mniDifficulty1 = new JRadioButtonMenuItem("初級");
-        JRadioButtonMenuItem mniDifficulty2 = new JRadioButtonMenuItem("中級");
-        JRadioButtonMenuItem mniDifficulty3 = new JRadioButtonMenuItem("上級");
-        JRadioButtonMenuItem mniDifficulty4 = new JRadioButtonMenuItem("カスタム");
+        JRadioButtonMenuItem mniDifficulty1 = new JRadioButtonMenuItem(CommonConstant.MENUITEM_DIFFICULTY_1);
+        JRadioButtonMenuItem mniDifficulty2 = new JRadioButtonMenuItem(CommonConstant.MENUITEM_DIFFICULTY_2);
+        JRadioButtonMenuItem mniDifficulty3 = new JRadioButtonMenuItem(CommonConstant.MENUITEM_DIFFICULTY_3);
+        JRadioButtonMenuItem mniDifficulty4 = new JRadioButtonMenuItem(CommonConstant.MENUITEM_DIFFICULTY_4);
         // 初期選択を初級に設定
         mniDifficulty1.setSelected(true);
         // カスタムは未実装なので選択不可
@@ -130,16 +131,18 @@ public class Minesweeper extends JFrame implements ActionListener {
 
         String command = e.getActionCommand();
 
-        if("新規".equals(command)) {
-
-        } else if("初級".equals(command)) {
+        if(CommonConstant.MENUITEM_NEW.equals(command)) {
+            // 選択中の難易度で初期化
+        } else if(CommonConstant.MENUITEM_DIFFICULTY_1.equals(command)) {
             setMainPanel(Difficulty.BEGINNER);
-        } else if("中級".equals(command)) {
+        } else if(CommonConstant.MENUITEM_DIFFICULTY_2.equals(command)) {
             setMainPanel(Difficulty.MIDDLE);
-        } else if("上級".equals(command)) {
+        } else if(CommonConstant.MENUITEM_DIFFICULTY_3.equals(command)) {
             setMainPanel(Difficulty.ADVANCED);
-        } else if("終了".equals(command)) {
+        } else if(CommonConstant.MENUITEM_EXIT.equals(command)) {
             System.exit(0);
+        } else if(CommonConstant.MENUITEM_VERSION.equals(command)) {
+            JOptionPane.showMessageDialog(this, "バージョン情報を表示予定");
         }
     }
 
