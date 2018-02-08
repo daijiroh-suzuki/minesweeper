@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButtonMenuItem;
 
 import jp.dsuzuki.minesweeper.common.CommonConstant;
+import jp.dsuzuki.minesweeper.common.ConfigReader;
 import jp.dsuzuki.minesweeper.common.Difficulty;
 
 /**
@@ -131,18 +132,28 @@ public class Minesweeper extends JFrame implements ActionListener {
 
         String command = e.getActionCommand();
 
-        if(CommonConstant.MENUITEM_NEW.equals(command)) {
+        switch(command) {
+        case CommonConstant.MENUITEM_NEW:
             // 選択中の難易度で初期化
-        } else if(CommonConstant.MENUITEM_DIFFICULTY_1.equals(command)) {
+            break;
+        case CommonConstant.MENUITEM_DIFFICULTY_1:
             setMainPanel(Difficulty.BEGINNER);
-        } else if(CommonConstant.MENUITEM_DIFFICULTY_2.equals(command)) {
+            break;
+        case CommonConstant.MENUITEM_DIFFICULTY_2:
             setMainPanel(Difficulty.MIDDLE);
-        } else if(CommonConstant.MENUITEM_DIFFICULTY_3.equals(command)) {
+            break;
+        case CommonConstant.MENUITEM_DIFFICULTY_3:
             setMainPanel(Difficulty.ADVANCED);
-        } else if(CommonConstant.MENUITEM_EXIT.equals(command)) {
+            break;
+        case CommonConstant.MENUITEM_DIFFICULTY_4:
+            break;
+        case CommonConstant.MENUITEM_EXIT:
             System.exit(0);
-        } else if(CommonConstant.MENUITEM_VERSION.equals(command)) {
-            JOptionPane.showMessageDialog(this, "バージョン情報を表示予定");
+            break;
+        case CommonConstant.MENUITEM_VERSION:
+            JOptionPane.showMessageDialog(this,
+                    "バージョンID" + ConfigReader.getInstance().getProperty(CommonConstant.KEY_VERSIONID));
+            break;
         }
     }
 

@@ -37,4 +37,7 @@ public class CommonConstant {
     public static final String BUTTON_GAME_OVER = "(´･ω･`) ｼｮﾎﾞｰﾝ";
     /** ボタンラベル：ゲームクリア */
     public static final String BUTTON_GAME_CLEAR = "(`･ω･´)ｼｬｷｰﾝ";
+
+    /** プロパティキー：バージョンID */
+    public static final String KEY_VERSIONID = "version.id";
 }
