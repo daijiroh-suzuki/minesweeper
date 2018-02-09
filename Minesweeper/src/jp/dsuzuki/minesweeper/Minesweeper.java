@@ -35,7 +35,7 @@ public class Minesweeper extends JFrame implements ActionListener {
     public Minesweeper() {
 
         // タイトルを設定する
-        setTitle(CommonConstant.FRAME_TITLE);
+        setTitle(ConfigReader.getProperty(CommonConstant.KEY_FRAME_TITLE));
 
         // 難易度を設定
         selectedDifficulty = Difficulty.BEGINNER;
@@ -56,19 +56,23 @@ public class Minesweeper extends JFrame implements ActionListener {
         JMenuBar menubar = new JMenuBar();
 
         // メニューを生成
-        JMenu mnFile = new JMenu(CommonConstant.MENU_FILE);
-        JMenu mnHelp = new JMenu(CommonConstant.MENU_HELP);
+        JMenu mnFile = new JMenu(ConfigReader.getProperty(CommonConstant.KEY_MENU_FILE));
+        JMenu mnHelp = new JMenu(ConfigReader.getProperty(CommonConstant.KEY_MENU_HELP));
 
         // メニューアイテムを生成
-        JMenuItem mniNew = new JMenuItem(CommonConstant.MENUITEM_NEW);
-        JMenuItem mniExit = new JMenuItem(CommonConstant.MENUITEM_EXIT);
-        JMenuItem mniVersion = new JMenuItem(CommonConstant.MENUITEM_VERSION);
+        JMenuItem mniNew = new JMenuItem(ConfigReader.getProperty(CommonConstant.KEY_MENUITEM_NEW));
+        JMenuItem mniExit = new JMenuItem(ConfigReader.getProperty(CommonConstant.KEY_MENUITEM_EXIT));
+        JMenuItem mniVersion = new JMenuItem(ConfigReader.getProperty(CommonConstant.KEY_MENUITEM_VERSION));
 
         // 難易度選択メニューアイテム生成
-        JRadioButtonMenuItem mniDifficulty1 = new JRadioButtonMenuItem(CommonConstant.MENUITEM_DIFFICULTY_1);
-        JRadioButtonMenuItem mniDifficulty2 = new JRadioButtonMenuItem(CommonConstant.MENUITEM_DIFFICULTY_2);
-        JRadioButtonMenuItem mniDifficulty3 = new JRadioButtonMenuItem(CommonConstant.MENUITEM_DIFFICULTY_3);
-        JRadioButtonMenuItem mniDifficulty4 = new JRadioButtonMenuItem(CommonConstant.MENUITEM_DIFFICULTY_4);
+        JRadioButtonMenuItem mniDifficulty1 =
+                new JRadioButtonMenuItem(ConfigReader.getProperty(CommonConstant.KEY_MENUITEM_DIFFICULTY1));
+        JRadioButtonMenuItem mniDifficulty2 =
+                new JRadioButtonMenuItem(ConfigReader.getProperty(CommonConstant.KEY_MENUITEM_DIFFICULTY2));
+        JRadioButtonMenuItem mniDifficulty3 =
+                new JRadioButtonMenuItem(ConfigReader.getProperty(CommonConstant.KEY_MENUITEM_DIFFICULTY3));
+        JRadioButtonMenuItem mniDifficulty4 =
+                new JRadioButtonMenuItem(ConfigReader.getProperty(CommonConstant.KEY_MENUITEM_DIFFICULTY4));
         // 初期選択を初級に設定
         mniDifficulty1.setSelected(true);
         // カスタムは未実装なので選択不可
@@ -139,32 +143,26 @@ public class Minesweeper extends JFrame implements ActionListener {
 
         String command = e.getActionCommand();
 
-        switch(command) {
-        case CommonConstant.MENUITEM_NEW:
+        if(ConfigReader.getProperty(CommonConstant.KEY_MENUITEM_NEW).equals(command)) {
             // 選択中の難易度で初期化
             setMainPanel(selectedDifficulty);
-            break;
-        case CommonConstant.MENUITEM_DIFFICULTY_1:
+        } else if(ConfigReader.getProperty(CommonConstant.KEY_MENUITEM_DIFFICULTY1).equals(command)) {
             selectedDifficulty = Difficulty.BEGINNER;
             setMainPanel(selectedDifficulty);
-            break;
-        case CommonConstant.MENUITEM_DIFFICULTY_2:
+        } else if(ConfigReader.getProperty(CommonConstant.KEY_MENUITEM_DIFFICULTY2).equals(command)) {
             selectedDifficulty = Difficulty.MIDDLE;
             setMainPanel(selectedDifficulty);
-            break;
-        case CommonConstant.MENUITEM_DIFFICULTY_3:
+        } else if(ConfigReader.getProperty(CommonConstant.KEY_MENUITEM_DIFFICULTY3).equals(command)) {
             selectedDifficulty = Difficulty.ADVANCED;
             setMainPanel(selectedDifficulty);
-            break;
-        case CommonConstant.MENUITEM_DIFFICULTY_4:
-            break;
-        case CommonConstant.MENUITEM_EXIT:
+        } else if(ConfigReader.getProperty(CommonConstant.KEY_MENUITEM_DIFFICULTY4).equals(command)) {
+            // 未実装
+        } else if(ConfigReader.getProperty(CommonConstant.KEY_MENUITEM_EXIT).equals(command)) {
             System.exit(0);
-            break;
-        case CommonConstant.MENUITEM_VERSION:
+        } else if(ConfigReader.getProperty(CommonConstant.KEY_MENUITEM_VERSION).equals(command)) {
             JOptionPane.showMessageDialog(this,
-                    "バージョンID：" + ConfigReader.getInstance().getProperty(CommonConstant.KEY_VERSIONID));
-            break;
+                    ConfigReader.getProperty(CommonConstant.KEY_MENUITEM_VERSION_POPUP) +
+                    ConfigReader.getProperty(CommonConstant.KEY_VERSIONID));
         }
     }
 

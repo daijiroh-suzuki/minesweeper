@@ -13,11 +13,13 @@ public class ConfigReader {
 
     /** バージョン設定ファイル */
     private static final String VERSION_FILE = "/version.properties";
+    /** メッセージ設定ファイル */
+    private static final String MESSAGE_FILE = "/message.properties";
 
     private static ConfigReader instance = new ConfigReader();
 
     /** Properties */
-    private Properties properties;
+    private static Properties properties;
 
     /**
      * コンストラクタ
@@ -26,9 +28,15 @@ public class ConfigReader {
 
         properties = new Properties();
         try {
-            InputStream inputStream = this.getClass().getResourceAsStream(VERSION_FILE);
-            properties.load(inputStream);
-            inputStream.close();
+            // バージョン設定ファイル読み込み
+            InputStream versionIs = this.getClass().getResourceAsStream(VERSION_FILE);
+            properties.load(versionIs);
+            versionIs.close();
+
+            // メッセージ設定ファイル読み込み
+            InputStream messageIs = this.getClass().getResourceAsStream(MESSAGE_FILE);
+            properties.load(messageIs);
+            messageIs.close();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -41,7 +49,7 @@ public class ConfigReader {
      * @param key
      * @return
      */
-    public String getProperty(String key) {
+    public static String getProperty(String key) {
         return properties.getProperty(key);
     }
 
