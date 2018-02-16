@@ -6,7 +6,6 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Map;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
@@ -14,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import jp.dsuzuki.minesweeper.common.CommonConstant;
+import jp.dsuzuki.minesweeper.common.Difficulty;
 
 public class MainBoad extends JPanel implements MouseListener {
 
@@ -73,19 +73,16 @@ public class MainBoad extends JPanel implements MouseListener {
     /**
      * コンストラクタ
      */
-    public MainBoad(JButton btn, int index) {
-
-        // 設定MAPを取得
-        Map<String, Integer> settingMap = CommonConstant.SETTING_LIST.get(index);
+    public MainBoad(JButton btn, Difficulty difficulty) {
 
         // x方向のタイル数を取得
-        tileX = settingMap.get(CommonConstant.TILE_X);
+        tileX = difficulty.TILE_X;
         // y方向のタイル数を取得
-        tileY = settingMap.get(CommonConstant.TILE_Y);
+        tileY = difficulty.TILE_Y;
         // タイルの一辺の大きさを取得
-        tileSize = settingMap.get(CommonConstant.TILE_SIZE);
+        tileSize = difficulty.TILE_SIZE;
         // 爆弾の個数を取得
-        bombNum = settingMap.get(CommonConstant.BOMB_NUM);
+        bombNum = difficulty.BOMB_NUM;
         // ゲームクリア条件を設定
         clearNum = (tileX * tileY) - bombNum;
 
@@ -131,7 +128,7 @@ public class MainBoad extends JPanel implements MouseListener {
         }
         for(int j=0; j<boad[0].length; j++) {
             boad[0][j] = BOAD_STATE_WALL;
-            boad[boad[0].length-1][j] = BOAD_STATE_WALL;
+            boad[boad.length-1][j] = BOAD_STATE_WALL;
         }
 
         // 初回クリックフラグを初期化する
@@ -210,6 +207,7 @@ public class MainBoad extends JPanel implements MouseListener {
     /**
      * 描画処理を行う。
      */
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -326,6 +324,7 @@ public class MainBoad extends JPanel implements MouseListener {
     /**
      * マウスボタンが押された時の処理
      */
+    @Override
     public void mousePressed(MouseEvent e) {
 
         Point point = e.getPoint();
@@ -338,6 +337,7 @@ public class MainBoad extends JPanel implements MouseListener {
     /**
      * マウスボタンが離された時の処理
      */
+    @Override
     public void mouseReleased(MouseEvent e) {
 
         // グリッド座標を取得
@@ -411,11 +411,13 @@ public class MainBoad extends JPanel implements MouseListener {
     /**
      * マウスがクリックされた時の処理
      */
+    @Override
     public void mouseClicked(MouseEvent e) {}
 
     /**
      * マウスポインタがコンポーネント領域に入った時の処理
      */
+    @Override
     public void mouseEntered(MouseEvent e) {
 
         if(!dragFlag) {
@@ -426,6 +428,7 @@ public class MainBoad extends JPanel implements MouseListener {
     /**
      * マウスポインタがコンポーネント領域から出た時の処理
      */
+    @Override
     public void mouseExited(MouseEvent e) {
 
         dragFlag = false;
