@@ -1,13 +1,17 @@
 package jp.dsuzuki.minesweeper;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 import jp.dsuzuki.minesweeper.common.CommonConstant;
 import jp.dsuzuki.minesweeper.common.Difficulty;
@@ -49,7 +53,32 @@ public class MainPanel extends JPanel {
                     }
                 });
 
-        add(button, BorderLayout.NORTH);
+        JPanel panel = new JPanel();
+        panel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
+
+        // タイマー用ラベル作成
+        JLabel label1 = new JLabel("00:00");
+        label1.setPreferredSize(new Dimension(60,30));
+        label1.setBorder(new LineBorder(Color.BLACK, 1, false));
+        label1.setBackground(Color.BLACK);              // 背景色を黒に変更
+        label1.setOpaque(true);                         // 背景色を不透明に変更
+        label1.setHorizontalAlignment(JLabel.CENTER);   // 文字表示位置を中心に変更
+        label1.setForeground(Color.RED);                // 前景色(文字色)を変更
+
+        // 爆弾の残数カウント用ラベル作成
+        JLabel label2 = new JLabel("000");
+        label2.setPreferredSize(new Dimension(60,30));
+        label2.setBorder(new LineBorder(Color.BLACK, 1, false));
+        label2.setBackground(Color.BLACK);              // 背景色を黒に変更
+        label2.setOpaque(true);                         // 背景色を不透明に変更
+        label2.setHorizontalAlignment(JLabel.CENTER);   // 文字表示位置を中心に変更
+        label2.setForeground(Color.RED);                // 前景色(文字色)を変更
+
+        panel.add(label1);
+        panel.add(button);
+        panel.add(label2);
+
+        add(panel, BorderLayout.NORTH);
         add(boad, BorderLayout.CENTER);
     }
 
