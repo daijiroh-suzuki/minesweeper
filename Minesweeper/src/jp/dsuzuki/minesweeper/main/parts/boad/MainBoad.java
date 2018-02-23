@@ -41,6 +41,8 @@ public class MainBoad extends JPanel implements MouseListener {
     /** カバー画像読み込み位置用定数 */
     private static final int IMAGE_COVER = 30;
 
+    /** タイマー */
+    private Timer timer;
     /** メインボタン */
     private JButton mainButton;
 
@@ -73,7 +75,7 @@ public class MainBoad extends JPanel implements MouseListener {
     /**
      * コンストラクタ
      */
-    public MainBoad(JButton btn, Difficulty difficulty) {
+    public MainBoad(JButton btn, Timer tmr, Difficulty difficulty) {
 
         // x方向のタイル数を取得
         tileX = difficulty.TILE_X;
@@ -89,6 +91,8 @@ public class MainBoad extends JPanel implements MouseListener {
         // パネルの推奨サイズを設定
         setPreferredSize(new Dimension(tileX * tileSize, tileY * tileSize));
 
+        // タイマーを設定
+        timer = tmr;
         // メインボタンを設定
         mainButton = btn;
 
@@ -254,7 +258,7 @@ public class MainBoad extends JPanel implements MouseListener {
     }
 
     /**
-     * 再帰的に呼び出されて、隣接するゼロのマスを全てオープンする。
+     * 隣接するゼロのマスを全てオープンする。
      *
      * @param x x座標
      * @param y y座標
@@ -292,6 +296,8 @@ public class MainBoad extends JPanel implements MouseListener {
             }
         }
 
+        // タイマーを停止
+        timer.stop();
         // ボタン表示を変更
         mainButton.setText(CommonConstant.BUTTON_GAME_OVER);
     }
@@ -317,6 +323,8 @@ public class MainBoad extends JPanel implements MouseListener {
             return;
         }
 
+        // タイマーを停止
+        timer.stop();
         // ボタン表示を変更
         mainButton.setText(CommonConstant.BUTTON_GAME_CLEAR);
     }
@@ -363,6 +371,8 @@ public class MainBoad extends JPanel implements MouseListener {
                 setBomb(x, y);
                 // 盤面の値を計算する
                 calcBoad();
+                // タイマーを開始する
+                timer.start();
                 // デバック情報を出力
                 printBoad();
 

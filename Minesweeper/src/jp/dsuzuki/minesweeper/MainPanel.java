@@ -30,9 +30,9 @@ public class MainPanel extends JPanel {
     public MainPanel(Difficulty difficulty) {
 
         // パネルの幅を取得
-        int width = difficulty.TILE_X * difficulty.TILE_SIZE + 20;
+        int width = difficulty.TILE_X * difficulty.TILE_SIZE  + 20;
         // パネルの高さを取得
-        int height = difficulty.TILE_Y * difficulty.TILE_SIZE + 60;
+        int height = difficulty.TILE_Y * difficulty.TILE_SIZE + 90;
 
         // パネルの推奨サイズを設定、pack()するときに必要
         setPreferredSize(new Dimension(width, height));
@@ -42,7 +42,7 @@ public class MainPanel extends JPanel {
         // タイマーを生成
         timer = new Timer();
         // 盤面クラスを生成
-        boad = new MainBoad(button, difficulty);
+        boad = new MainBoad(button, timer, difficulty);
 
         // ボタンのアクションリスナーを設定
         button.addMouseListener(
@@ -52,6 +52,7 @@ public class MainPanel extends JPanel {
                         btn.setText(CommonConstant.BUTTON_INIT);
                         System.out.println("ボタンが押されました。盤面を初期化します。");
                         boad.init();
+                        timer.init();
                     }
                 });
 
