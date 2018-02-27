@@ -43,9 +43,9 @@ public class MainPanel extends JPanel {
         // タイマーを生成
         timer = new Timer();
         // カウンタを生成
-        counter = new Counter(difficulty.BOMB_NUM);
+        counter = new Counter(difficulty);
         // 盤面クラスを生成
-        boad = new MainBoad(button, timer, difficulty);
+        boad = new MainBoad(button, timer, counter, difficulty);
 
         // ボタンのアクションリスナーを設定
         button.addMouseListener(
@@ -56,6 +56,7 @@ public class MainPanel extends JPanel {
                         System.out.println("ボタンが押されました。盤面を初期化します。");
                         boad.init();
                         timer.init();
+                        counter.init();
                     }
                 });
 

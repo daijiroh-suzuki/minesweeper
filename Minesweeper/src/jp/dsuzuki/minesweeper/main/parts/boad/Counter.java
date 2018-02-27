@@ -5,6 +5,8 @@ import java.awt.Dimension;
 
 import javax.swing.JLabel;
 
+import jp.dsuzuki.minesweeper.common.Difficulty;
+
 public class Counter extends JLabel {
 
    /** コンポーネントの幅 */
@@ -12,13 +14,16 @@ public class Counter extends JLabel {
     /** コンポーネントの高さ */
     private static final int SIZE_Y = 30;
 
+    /** 難易度 */
+    private Difficulty difficulty;
+
     /** カウント */
     private int count;
 
     /**
      * コンストラクタ
      */
-    public Counter(int cnt) {
+    public Counter(Difficulty dif) {
 
         // 推奨サイズの設定
         setPreferredSize(new Dimension(SIZE_X, SIZE_Y));
@@ -31,8 +36,11 @@ public class Counter extends JLabel {
         // 文字の水平方向表示位置を変更
         setHorizontalAlignment(JLabel.CENTER);
 
+        // 難易度を設定
+        difficulty = dif;
+
         // カウンタの初期化
-        init(cnt);
+        init();
     }
 
     /**
@@ -40,9 +48,26 @@ public class Counter extends JLabel {
      *
      * @param cnt
      */
-    public void init(int cnt) {
+    public void init() {
 
-        count = cnt;
+        count = difficulty.BOMB_NUM;
         setText(String.format("%03d", count));
+        repaint();
+    }
+
+    /**
+     * カウント加算
+     */
+    public void countUp() {
+        count++;
+        repaint();
+    }
+
+    /**
+     * カウント減算
+     */
+    public void countDown() {
+        count--;
+        repaint();
     }
 }

@@ -43,6 +43,8 @@ public class MainBoad extends JPanel implements MouseListener {
 
     /** タイマー */
     private Timer timer;
+    /** カウンタ */
+    private Counter counter;
     /** メインボタン */
     private JButton mainButton;
 
@@ -75,7 +77,7 @@ public class MainBoad extends JPanel implements MouseListener {
     /**
      * コンストラクタ
      */
-    public MainBoad(JButton btn, Timer tmr, Difficulty difficulty) {
+    public MainBoad(JButton btn, Timer tmr, Counter cnt, Difficulty difficulty) {
 
         // x方向のタイル数を取得
         tileX = difficulty.TILE_X;
@@ -93,6 +95,8 @@ public class MainBoad extends JPanel implements MouseListener {
 
         // タイマーを設定
         timer = tmr;
+        // カウンタを設定
+        counter = cnt;
         // メインボタンを設定
         mainButton = btn;
 
@@ -403,9 +407,11 @@ public class MainBoad extends JPanel implements MouseListener {
 
             if(cover[y][x] == COVER_STATE_PULL) {
                 cover[y][x] = COVER_STATE_FLAG;
+                counter.countDown(); // カウンタを減算
 
             } else if(cover[y][x] == COVER_STATE_FLAG) {
                 cover[y][x] = COVER_STATE_QUES;
+                counter.countUp(); // カウンタを加算
 
             } else if(cover[y][x] == COVER_STATE_QUES) {
                 cover[y][x] = COVER_STATE_PULL;
