@@ -1,7 +1,6 @@
 package jp.dsuzuki.minesweeper;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -9,11 +8,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import jp.dsuzuki.minesweeper.common.CommonConstant;
 import jp.dsuzuki.minesweeper.common.Difficulty;
+import jp.dsuzuki.minesweeper.main.parts.boad.Counter;
 import jp.dsuzuki.minesweeper.main.parts.boad.MainBoad;
 import jp.dsuzuki.minesweeper.main.parts.boad.Timer;
 
@@ -21,6 +20,8 @@ public class MainPanel extends JPanel {
 
     /** タイマー */
     private Timer timer;
+    /** カウンタ */
+    private Counter counter;
     /** 盤面 */
     private MainBoad boad;
 
@@ -41,8 +42,10 @@ public class MainPanel extends JPanel {
         JButton button = new JButton(CommonConstant.BUTTON_INIT);
         // タイマーを生成
         timer = new Timer();
+        // カウンタを生成
+        counter = new Counter(difficulty);
         // 盤面クラスを生成
-        boad = new MainBoad(button, timer, difficulty);
+        boad = new MainBoad(button, timer, counter, difficulty);
 
         // ボタンのアクションリスナーを設定
         button.addMouseListener(
@@ -51,25 +54,18 @@ public class MainPanel extends JPanel {
                         JButton btn = (JButton)e.getSource();
                         btn.setText(CommonConstant.BUTTON_INIT);
                         System.out.println("ボタンが押されました。盤面を初期化します。");
-                        boad.init();
-                        timer.init();
+                        boad.init(); // 盤面を初期化
+                        timer.init(); // タイマーを初期化
+                        counter.init(); // カウンタを初期化
                     }
                 });
 
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
 
-        // 爆弾の残数カウント用ラベル作成
-        JLabel label2 = new JLabel("000");
-        label2.setPreferredSize(new Dimension(60,30));
-        label2.setBackground(Color.BLACK);              // 背景色を黒に変更
-        label2.setOpaque(true);                         // 背景色を不透明に変更
-        label2.setHorizontalAlignment(JLabel.CENTER);   // 文字表示位置を中心に変更
-        label2.setForeground(Color.RED);                // 前景色(文字色)を変更
-
         panel.add(timer);
         panel.add(button);
-        panel.add(label2);
+        panel.add(counter);
 
         add(panel, BorderLayout.NORTH);
         add(boad, BorderLayout.CENTER);

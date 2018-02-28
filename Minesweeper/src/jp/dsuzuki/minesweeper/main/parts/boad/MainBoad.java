@@ -17,8 +17,6 @@ import jp.dsuzuki.minesweeper.common.Difficulty;
 
 public class MainBoad extends JPanel implements MouseListener {
 
-    private static final long serialVersionUID = 1L;
-
     /** 盤面の状態 */
     private static final int BOAD_STATE_NONE = 0;
     private static final int BOAD_STATE_BOMB = 9;
@@ -43,6 +41,8 @@ public class MainBoad extends JPanel implements MouseListener {
 
     /** タイマー */
     private Timer timer;
+    /** カウンタ */
+    private Counter counter;
     /** メインボタン */
     private JButton mainButton;
 
@@ -75,7 +75,7 @@ public class MainBoad extends JPanel implements MouseListener {
     /**
      * コンストラクタ
      */
-    public MainBoad(JButton btn, Timer tmr, Difficulty difficulty) {
+    public MainBoad(JButton btn, Timer tmr, Counter cnt, Difficulty difficulty) {
 
         // x方向のタイル数を取得
         tileX = difficulty.TILE_X;
@@ -93,6 +93,8 @@ public class MainBoad extends JPanel implements MouseListener {
 
         // タイマーを設定
         timer = tmr;
+        // カウンタを設定
+        counter = cnt;
         // メインボタンを設定
         mainButton = btn;
 
@@ -265,6 +267,10 @@ public class MainBoad extends JPanel implements MouseListener {
      */
     private void openZeroTile(int x, int y) {
 
+        if(cover[y][x] == COVER_STATE_FLAG) {
+            counter.countUp();  // カウンタを加算
+        }
+
         // カバーをオープンする
         cover[y][x] = COVER_STATE_NONE;
 
@@ -392,6 +398,9 @@ public class MainBoad extends JPanel implements MouseListener {
 
             // 上記以外の場合
             } else {
+                if(cover[y][x] == COVER_STATE_FLAG) {
+                    counter.countUp(); // カウンタを加算
+                }
                 // カバーをオープンする
                 cover[y][x] = COVER_STATE_NONE;
                 // ゲームクリア処理
@@ -403,9 +412,11 @@ public class MainBoad extends JPanel implements MouseListener {
 
             if(cover[y][x] == COVER_STATE_PULL) {
                 cover[y][x] = COVER_STATE_FLAG;
+                counter.countDown(); // カウンタを減算
 
             } else if(cover[y][x] == COVER_STATE_FLAG) {
                 cover[y][x] = COVER_STATE_QUES;
+                counter.countUp(); // カウンタを加算
 
             } else if(cover[y][x] == COVER_STATE_QUES) {
                 cover[y][x] = COVER_STATE_PULL;
