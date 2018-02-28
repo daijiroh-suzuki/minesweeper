@@ -17,8 +17,6 @@ import jp.dsuzuki.minesweeper.common.Difficulty;
 
 public class MainBoad extends JPanel implements MouseListener {
 
-    private static final long serialVersionUID = 1L;
-
     /** 盤面の状態 */
     private static final int BOAD_STATE_NONE = 0;
     private static final int BOAD_STATE_BOMB = 9;
@@ -269,6 +267,10 @@ public class MainBoad extends JPanel implements MouseListener {
      */
     private void openZeroTile(int x, int y) {
 
+        if(cover[y][x] == COVER_STATE_FLAG) {
+            counter.countUp();  // カウンタを加算
+        }
+
         // カバーをオープンする
         cover[y][x] = COVER_STATE_NONE;
 
@@ -396,6 +398,9 @@ public class MainBoad extends JPanel implements MouseListener {
 
             // 上記以外の場合
             } else {
+                if(cover[y][x] == COVER_STATE_FLAG) {
+                    counter.countUp(); // カウンタを加算
+                }
                 // カバーをオープンする
                 cover[y][x] = COVER_STATE_NONE;
                 // ゲームクリア処理
