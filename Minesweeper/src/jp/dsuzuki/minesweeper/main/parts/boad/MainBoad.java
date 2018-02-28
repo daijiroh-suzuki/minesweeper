@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.net.URL;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
@@ -444,7 +445,8 @@ public class MainBoad extends JPanel implements MouseListener {
      * 画像をロードする
      */
     private void loadImage() {
-        ImageIcon icon = new ImageIcon("./image/tile.gif");
+        URL url = this.getClass().getClassLoader().getResource("image/tile.gif");
+        ImageIcon icon = new ImageIcon(url);
         image = icon.getImage();
     }
 
