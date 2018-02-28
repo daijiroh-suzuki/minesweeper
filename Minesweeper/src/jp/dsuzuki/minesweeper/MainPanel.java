@@ -54,9 +54,9 @@ public class MainPanel extends JPanel {
                         JButton btn = (JButton)e.getSource();
                         btn.setText(CommonConstant.BUTTON_INIT);
                         System.out.println("ボタンが押されました。盤面を初期化します。");
-                        boad.init();
-                        timer.init();
-                        counter.init();
+                        boad.init(); // 盤面を初期化
+                        timer.init(); // タイマーを初期化
+                        counter.init(); // カウンタを初期化
                     }
                 });
 
