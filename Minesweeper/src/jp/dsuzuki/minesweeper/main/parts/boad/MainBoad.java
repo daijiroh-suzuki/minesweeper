@@ -12,7 +12,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import jp.dsuzuki.minesweeper.common.CommonConstant;
 import jp.dsuzuki.minesweeper.common.Difficulty;
 
 public class MainBoad extends JPanel implements MouseListener {
@@ -75,7 +74,7 @@ public class MainBoad extends JPanel implements MouseListener {
     /**
      * コンストラクタ
      */
-    public MainBoad(JButton btn, Timer tmr, Counter cnt, Difficulty difficulty) {
+    public MainBoad(InitButton btn, Timer tmr, Counter cnt, Difficulty difficulty) {
 
         // x方向のタイル数を取得
         tileX = difficulty.TILE_X;
@@ -305,7 +304,7 @@ public class MainBoad extends JPanel implements MouseListener {
         // タイマーを停止
         timer.stop();
         // ボタン表示を変更
-        mainButton.setText(CommonConstant.BUTTON_GAME_OVER);
+        mainButton.setText(InitButton.BUTTON_GAME_OVER);
     }
 
     /**
@@ -332,7 +331,7 @@ public class MainBoad extends JPanel implements MouseListener {
         // タイマーを停止
         timer.stop();
         // ボタン表示を変更
-        mainButton.setText(CommonConstant.BUTTON_GAME_CLEAR);
+        mainButton.setText(InitButton.BUTTON_GAME_CLEAR);
     }
 
     /**
