@@ -43,7 +43,7 @@ public class MainPanel extends JPanel {
         // カウンタを生成
         counter = new Counter(difficulty);
         // 盤面クラスを生成
-        boad = new MainBoad(button, timer, counter, difficulty);
+        boad = new MainBoad(difficulty);
 
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));

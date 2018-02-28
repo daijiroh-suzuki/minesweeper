@@ -9,9 +9,9 @@ import java.awt.event.MouseListener;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import jp.dsuzuki.minesweeper.MainPanel;
 import jp.dsuzuki.minesweeper.common.Difficulty;
 
 public class MainBoad extends JPanel implements MouseListener {
@@ -37,13 +37,6 @@ public class MainBoad extends JPanel implements MouseListener {
     private static final int IMAGE_BOAD  = 0;
     /** カバー画像読み込み位置用定数 */
     private static final int IMAGE_COVER = 30;
-
-    /** タイマー */
-    private Timer timer;
-    /** カウンタ */
-    private Counter counter;
-    /** メインボタン */
-    private JButton mainButton;
 
     /** x方向のタイル数 */
     private int tileX;
@@ -74,7 +67,7 @@ public class MainBoad extends JPanel implements MouseListener {
     /**
      * コンストラクタ
      */
-    public MainBoad(InitButton btn, Timer tmr, Counter cnt, Difficulty difficulty) {
+    public MainBoad(Difficulty difficulty) {
 
         // x方向のタイル数を取得
         tileX = difficulty.TILE_X;
@@ -89,13 +82,6 @@ public class MainBoad extends JPanel implements MouseListener {
 
         // パネルの推奨サイズを設定
         setPreferredSize(new Dimension(tileX * tileSize, tileY * tileSize));
-
-        // タイマーを設定
-        timer = tmr;
-        // カウンタを設定
-        counter = cnt;
-        // メインボタンを設定
-        mainButton = btn;
 
         // 盤面の初期化を行う
         init();
@@ -267,7 +253,7 @@ public class MainBoad extends JPanel implements MouseListener {
     private void openZeroTile(int x, int y) {
 
         if(cover[y][x] == COVER_STATE_FLAG) {
-            counter.countUp();  // カウンタを加算
+            MainPanel.getCounter().countUp();  // カウンタを加算
         }
 
         // カバーをオープンする
@@ -302,9 +288,9 @@ public class MainBoad extends JPanel implements MouseListener {
         }
 
         // タイマーを停止
-        timer.stop();
+        MainPanel.getTimer().stop();
         // ボタン表示を変更
-        mainButton.setText(InitButton.BUTTON_GAME_OVER);
+        MainPanel.getButton().setText(InitButton.BUTTON_GAME_OVER);
     }
 
     /**
@@ -329,9 +315,9 @@ public class MainBoad extends JPanel implements MouseListener {
         }
 
         // タイマーを停止
-        timer.stop();
+        MainPanel.getTimer().stop();
         // ボタン表示を変更
-        mainButton.setText(InitButton.BUTTON_GAME_CLEAR);
+        MainPanel.getButton().setText(InitButton.BUTTON_GAME_CLEAR);
     }
 
     /**
@@ -377,7 +363,7 @@ public class MainBoad extends JPanel implements MouseListener {
                 // 盤面の値を計算する
                 calcBoad();
                 // タイマーを開始する
-                timer.start();
+                MainPanel.getTimer().start();
                 // デバック情報を出力
                 printBoad();
 
@@ -398,7 +384,7 @@ public class MainBoad extends JPanel implements MouseListener {
             // 上記以外の場合
             } else {
                 if(cover[y][x] == COVER_STATE_FLAG) {
-                    counter.countUp(); // カウンタを加算
+                    MainPanel.getCounter().countUp(); // カウンタを加算
                 }
                 // カバーをオープンする
                 cover[y][x] = COVER_STATE_NONE;
@@ -411,11 +397,11 @@ public class MainBoad extends JPanel implements MouseListener {
 
             if(cover[y][x] == COVER_STATE_PULL) {
                 cover[y][x] = COVER_STATE_FLAG;
-                counter.countDown(); // カウンタを減算
+                MainPanel.getCounter().countDown(); // カウンタを減算
 
             } else if(cover[y][x] == COVER_STATE_FLAG) {
                 cover[y][x] = COVER_STATE_QUES;
-                counter.countUp(); // カウンタを加算
+                MainPanel.getCounter().countUp(); // カウンタを加算
 
             } else if(cover[y][x] == COVER_STATE_QUES) {
                 cover[y][x] = COVER_STATE_PULL;
