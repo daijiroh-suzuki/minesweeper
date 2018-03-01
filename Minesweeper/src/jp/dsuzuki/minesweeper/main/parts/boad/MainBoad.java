@@ -371,26 +371,30 @@ public class MainBoad extends JPanel implements MouseListener {
                 clickFlag = true;
             }
 
-            // 選択マスの値がゼロの場合
-            if(boad[y][x] == BOAD_STATE_NONE) {
-                openZeroTile(x, y);
-                // ゲームクリア処理
-                gameClear();
+            // カバーがオープンされていない場合
+            if(cover[y][x] != COVER_STATE_NONE) {
 
-            // 選択マスが爆弾の場合
-            } else if(boad[y][x] == BOAD_STATE_BOMB) {
-                // ゲームオーバー処理
-                gameOver();
+                // 選択マスの値がゼロの場合
+                if(boad[y][x] == BOAD_STATE_NONE) {
+                    openZeroTile(x, y);
+                    // ゲームクリア処理
+                    gameClear();
 
-            // 上記以外の場合
-            } else {
-                if(cover[y][x] == COVER_STATE_FLAG) {
-                    MainPanel.getCounter().countUp(); // カウンタを加算
+                // 選択マスが爆弾の場合
+                } else if(boad[y][x] == BOAD_STATE_BOMB) {
+                    // ゲームオーバー処理
+                    gameOver();
+
+                // 上記以外の場合
+                } else {
+                    if(cover[y][x] == COVER_STATE_FLAG) {
+                        MainPanel.getCounter().countUp(); // カウンタを加算
+                    }
+                    // カバーをオープンする
+                    cover[y][x] = COVER_STATE_NONE;
+                    // ゲームクリア処理
+                    gameClear();
                 }
-                // カバーをオープンする
-                cover[y][x] = COVER_STATE_NONE;
-                // ゲームクリア処理
-                gameClear();
             }
 
         // 右クリックの場合
