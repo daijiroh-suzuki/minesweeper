@@ -2,6 +2,7 @@ package jp.dsuzuki.minesweeper.main.parts.boad;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 
 import javax.swing.JLabel;
 
@@ -51,7 +52,6 @@ public class Counter extends JLabel {
     public void init() {
 
         count = difficulty.BOMB_NUM;
-        setText(String.format("%03d", count));
         repaint();
     }
 
@@ -69,5 +69,15 @@ public class Counter extends JLabel {
     public void countDown() {
         count--;
         repaint();
+    }
+
+    /**
+     * 描画処理
+     */
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        setText(String.format("%03d", count));
     }
 }
