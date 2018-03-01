@@ -34,6 +34,9 @@ public class MainBoad extends JPanel implements MouseListener {
     /** 周囲8方向の参照y方向 */
     private static final int[] DIRECTION_Y = {-1, -1, 0, 1, 1,  1,  0, -1};
 
+    /** 画像ファイルパス */
+    private static final String IMAGE_FILE = "image/tile.gif";
+
     /** 盤面画像読み込み位置用定数  */
     private static final int IMAGE_BOAD  = 0;
     /** カバー画像読み込み位置用定数 */
@@ -449,7 +452,7 @@ public class MainBoad extends JPanel implements MouseListener {
      * 画像をロードする
      */
     private void loadImage() {
-        URL url = this.getClass().getClassLoader().getResource("image/tile.gif");
+        URL url = this.getClass().getClassLoader().getResource(IMAGE_FILE);
         ImageIcon icon = new ImageIcon(url);
         image = icon.getImage();
     }
