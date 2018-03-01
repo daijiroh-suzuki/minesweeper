@@ -46,7 +46,7 @@ public class MainPanel extends JPanel {
         boad = new MainBoad(difficulty);
 
         JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
+        panel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
 
         panel.add(timer);
         panel.add(button);
