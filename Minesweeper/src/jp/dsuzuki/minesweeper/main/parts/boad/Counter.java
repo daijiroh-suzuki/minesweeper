@@ -78,6 +78,10 @@ public class Counter extends JLabel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        setText(String.format("%03d", count));
+        if(count < 0) {
+            setText(String.format("+%03d", count));
+        } else {
+            setText(String.format("%03d", count));
+        }
     }
 }
