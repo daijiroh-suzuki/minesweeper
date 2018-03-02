@@ -146,8 +146,8 @@ public class MainBoad extends JPanel implements MouseListener {
 
         for(int i=0; i<bombNum; i++) {
             // 乱数で爆弾のx,y座標を取得
-            int bombX = rand.nextInt(tileX - 2) + 1;
-            int bombY = rand.nextInt(tileY - 2) + 1;
+            int bombX = rand.nextInt(tileX) + 1;
+            int bombY = rand.nextInt(tileY) + 1;
 
             // 取得したx,y座標が初回クリック座標の場合は取得し直し
             if(bombX == x && bombY == y) {
