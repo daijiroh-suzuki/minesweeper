@@ -6,6 +6,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JButton;
 
 import jp.dsuzuki.minesweeper.MainPanel;
+import jp.dsuzuki.minesweeper.debug.DebugUtil;
 
 public class InitButton extends JButton implements MouseListener {
 
@@ -35,7 +36,7 @@ public class InitButton extends JButton implements MouseListener {
     // マウスボタンが離された時
     @Override
     public void mouseReleased(MouseEvent e) {
-        System.out.println("ボタンが押されました。盤面を初期化します。");
+        DebugUtil.println("ボタンが押されました。盤面を初期化します。");
         // ラベルを初期化
         setText(BUTTON_INIT);
         // 盤面を初期化

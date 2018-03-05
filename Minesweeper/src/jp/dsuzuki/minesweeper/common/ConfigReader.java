@@ -3,6 +3,8 @@ package jp.dsuzuki.minesweeper.common;
 import java.io.InputStream;
 import java.util.Properties;
 
+import jp.dsuzuki.minesweeper.debug.DebugUtil;
+
 /**
  * 設定ファイル読み込みクラス (Singleton)
  *
@@ -39,7 +41,7 @@ public class ConfigReader {
             messageIs.close();
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            DebugUtil.println(e.getMessage());
         }
     }
 

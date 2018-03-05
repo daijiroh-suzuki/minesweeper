@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 
 import jp.dsuzuki.minesweeper.MainPanel;
 import jp.dsuzuki.minesweeper.common.Difficulty;
+import jp.dsuzuki.minesweeper.debug.DebugUtil;
 
 public class MainBoad extends JPanel implements MouseListener {
 
@@ -129,7 +130,7 @@ public class MainBoad extends JPanel implements MouseListener {
         // 初回クリックフラグを初期化する
         clickFlag = false;
 
-        System.out.println("盤面の初期化完了");
+        DebugUtil.println("盤面の初期化完了");
 
         repaint();
     }
@@ -151,21 +152,21 @@ public class MainBoad extends JPanel implements MouseListener {
 
             // 取得したx,y座標が初回クリック座標の場合は取得し直し
             if(bombX == x && bombY == y) {
-                System.out.println("x:" + bombX + ",y:" + bombY + "は初回クリック座標なのでやり直します。");
+                DebugUtil.println("x:" + bombX + ",y:" + bombY + "は初回クリック座標なのでやり直します。");
                 i--;
                 continue;
             }
 
             // 取得したx,y座標に既に爆弾があった場合は取得し直し
             if(boad[bombY][bombX] == BOAD_STATE_BOMB) {
-                System.out.println("x:" + bombX + ",y:" + bombY + "に既に爆弾が設定されているのでやり直します。");
+                DebugUtil.println("x:" + bombX + ",y:" + bombY + "に既に爆弾が設定されているのでやり直します。");
                 i--;
                 continue;
             }
             // 爆弾を盤面に設定
             boad[bombY][bombX] = BOAD_STATE_BOMB;
 
-            System.out.println("爆弾をx:" + bombX + ",y:" + bombY + "にセットしました。");
+            DebugUtil.println("爆弾をx:" + bombX + ",y:" + bombY + "にセットしました。");
         }
     }
 
@@ -174,7 +175,7 @@ public class MainBoad extends JPanel implements MouseListener {
      */
     private void calcBoad() {
 
-        System.out.println("盤面の値の計算を開始します。");
+        DebugUtil.println("盤面の値の計算を開始します。");
 
         for(int i=1; i<boad.length-1; i++) {
             for(int j=1; j<boad[i].length-1; j++) {
@@ -196,7 +197,7 @@ public class MainBoad extends JPanel implements MouseListener {
             }
         }
 
-        System.out.println("盤面の値の計算が完了しました。");
+        DebugUtil.println("盤面の値の計算が完了しました。");
     }
 
     /**
@@ -310,8 +311,8 @@ public class MainBoad extends JPanel implements MouseListener {
             }
         }
 
-        System.out.println("オープンされているカバー数：" + cnt);
-        System.out.println("クリア条件：" + clearNum);
+        DebugUtil.println("オープンされているカバー数：" + cnt);
+        DebugUtil.println("クリア条件：" + clearNum);
 
         // オープンされていカバー数がクリア条件を満たしていない場合
         if(cnt < clearNum) {
@@ -331,7 +332,7 @@ public class MainBoad extends JPanel implements MouseListener {
     public void mousePressed(MouseEvent e) {
 
         Point point = e.getPoint();
-        System.out.println("mousePressed x:" + pixelToGrid((int)point.getX()) + ", y:" + pixelToGrid((int)point.getY()));
+        DebugUtil.println("mousePressed x:" + pixelToGrid((int)point.getX()) + ", y:" + pixelToGrid((int)point.getY()));
 
         // ドラッグフラグをオンにする
         dragFlag = true;
@@ -347,7 +348,7 @@ public class MainBoad extends JPanel implements MouseListener {
         Point point = e.getPoint();
         int x = pixelToGrid((int)point.getX());
         int y = pixelToGrid((int)point.getY());
-        System.out.println("mouseReleased x:" + x + ", y:" + y);
+        DebugUtil.println("mouseReleased x:" + x + ", y:" + y);
 
         // ボタンの種類を取得
         int button = e.getButton();
@@ -377,7 +378,7 @@ public class MainBoad extends JPanel implements MouseListener {
                 // タイマーを開始する
                 MainPanel.getTimer().start();
                 // デバック情報を出力
-                printBoad();
+                DebugUtil.printArray(boad);
 
                 clickFlag = true;
             }
@@ -457,18 +458,5 @@ public class MainBoad extends JPanel implements MouseListener {
         URL url = this.getClass().getClassLoader().getResource(IMAGE_FILE);
         ImageIcon icon = new ImageIcon(url);
         image = icon.getImage();
-    }
-
-    /**
-     * 盤面の値をコンソールに出力する（デバック用）
-     */
-    private void printBoad() {
-
-        for(int i=0; i<boad.length; i++) {
-            for(int j=0; j<boad[i].length; j++) {
-                System.out.printf("%2d ", boad[i][j]);
-            }
-            System.out.println();
-        }
     }
 }
