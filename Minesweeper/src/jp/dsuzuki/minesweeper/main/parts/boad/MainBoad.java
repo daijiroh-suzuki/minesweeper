@@ -357,8 +357,16 @@ public class MainBoad extends JPanel implements MouseListener {
             return;
         }
 
+        // ドラッグフラグをオフにする
+        dragFlag = false;
+
         // 左クリックの場合
         if(MouseEvent.BUTTON1 == button) {
+
+            // 選択マスのカバーがフラグの場合は処理をスキップする
+            if(cover[y][x] == COVER_STATE_NONE) {
+                return;
+            }
 
             // 初回クリックの場合
             if(!clickFlag) {
@@ -390,9 +398,6 @@ public class MainBoad extends JPanel implements MouseListener {
 
                 // 上記以外の場合
                 } else {
-                    if(cover[y][x] == COVER_STATE_FLAG) {
-                        MainPanel.getCounter().countUp(); // カウンタを加算
-                    }
                     // カバーをオープンする
                     cover[y][x] = COVER_STATE_NONE;
                     // ゲームクリア処理
@@ -415,9 +420,6 @@ public class MainBoad extends JPanel implements MouseListener {
                 cover[y][x] = COVER_STATE_PULL;
             }
         }
-
-        // ドラッグフラグをオフにする
-        dragFlag = false;
 
         repaint();
     }
