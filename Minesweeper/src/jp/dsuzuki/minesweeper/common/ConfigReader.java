@@ -31,9 +31,9 @@ public class ConfigReader {
         properties = new Properties();
         try {
             // バージョン設定ファイル読み込み
-            InputStream versionIs = this.getClass().getResourceAsStream(SYSTEM_FILE);
-            properties.load(versionIs);
-            versionIs.close();
+            InputStream systemIs = this.getClass().getResourceAsStream(SYSTEM_FILE);
+            properties.load(systemIs);
+            systemIs.close();
 
             // メッセージ設定ファイル読み込み
             InputStream messageIs = this.getClass().getResourceAsStream(MESSAGE_FILE);
