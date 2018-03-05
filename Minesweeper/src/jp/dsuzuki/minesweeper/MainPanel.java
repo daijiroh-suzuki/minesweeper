@@ -1,6 +1,7 @@
 package jp.dsuzuki.minesweeper;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
@@ -36,6 +37,9 @@ public class MainPanel extends JPanel {
         // コンポーネントの推奨サイズを設定、pack()するときに必要
         setPreferredSize(new Dimension(width, height));
 
+        // 背景色を設定
+        setBackground(new Color(176,176,176));
+
         // 初期化ボタンを生成
         button = new InitButton();
         // タイマーを生成
@@ -46,6 +50,7 @@ public class MainPanel extends JPanel {
         boad = new MainBoad(difficulty);
 
         JPanel panel = new JPanel();
+        panel.setBackground(new Color(176,176,176));
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
 
         panel.add(timer);
