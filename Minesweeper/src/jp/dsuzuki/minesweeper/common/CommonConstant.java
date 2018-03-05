@@ -10,6 +10,9 @@ public class CommonConstant {
 
     /** プロパティキー：バージョンID */
     public static final String KEY_VERSIONID = "version.id";
+    /** プロパティキー：デバッグモード */
+    public static final String KEY_DEBUGMODE = "debug.mode";
+
     /** プロパティキー：フレームタイトル */
     public static final String KEY_FRAME_TITLE = "message.frame.title";
     /** プロパティキー：メニューラベル(ファイル) */

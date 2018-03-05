@@ -1,5 +1,8 @@
 package jp.dsuzuki.minesweeper.debug;
 
+import jp.dsuzuki.minesweeper.common.CommonConstant;
+import jp.dsuzuki.minesweeper.common.ConfigReader;
+
 /**
  * デバッグ用ユーティリティクラス
  *
@@ -9,7 +12,17 @@ package jp.dsuzuki.minesweeper.debug;
 public class DebugUtil {
 
     /** デバッグモード */
-    private static int mode = 1;
+    private static int mode;
+
+    static {
+        // デバッグモード取得
+        String tmp = ConfigReader.getProperty(CommonConstant.KEY_DEBUGMODE);
+        if(tmp != null) {
+            mode = Integer.parseInt(tmp);
+        } else {
+            mode = 0;
+        }
+    }
 
     /**
      * 標準出力にログを出力

@@ -14,7 +14,7 @@ import jp.dsuzuki.minesweeper.debug.DebugUtil;
 public class ConfigReader {
 
     /** バージョン設定ファイル */
-    private static final String VERSION_FILE = "/version.properties";
+    private static final String SYSTEM_FILE = "/system.properties";
     /** メッセージ設定ファイル */
     private static final String MESSAGE_FILE = "/message.properties";
 
@@ -31,7 +31,7 @@ public class ConfigReader {
         properties = new Properties();
         try {
             // バージョン設定ファイル読み込み
-            InputStream versionIs = this.getClass().getResourceAsStream(VERSION_FILE);
+            InputStream versionIs = this.getClass().getResourceAsStream(SYSTEM_FILE);
             properties.load(versionIs);
             versionIs.close();
 
