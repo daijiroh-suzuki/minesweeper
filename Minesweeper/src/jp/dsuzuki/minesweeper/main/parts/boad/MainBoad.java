@@ -365,7 +365,7 @@ public class MainBoad extends JPanel implements MouseListener {
         if(MouseEvent.BUTTON1 == button) {
 
             // 選択マスのカバーがフラグの場合は処理をスキップする
-            if(cover[y][x] == COVER_STATE_NONE) {
+            if(cover[y][x] == COVER_STATE_FLAG) {
                 return;
             }
 
