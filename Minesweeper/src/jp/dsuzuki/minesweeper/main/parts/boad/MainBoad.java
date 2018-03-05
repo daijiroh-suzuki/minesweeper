@@ -26,7 +26,7 @@ public class MainBoad extends JPanel implements MouseListener {
     /** カバーの状態 */
     private static final int COVER_STATE_NONE = -1;
     private static final int COVER_STATE_PULL = 0;
-    //private static final int COVER_STATE_DENT = 1;
+    private static final int COVER_STATE_DENT = 1;
     private static final int COVER_STATE_FLAG = 2;
     private static final int COVER_STATE_QUES = 3;
 
@@ -331,11 +331,28 @@ public class MainBoad extends JPanel implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
 
+        // グリッド座標を取得
         Point point = e.getPoint();
-        DebugUtil.println("mousePressed x:" + pixelToGrid((int)point.getX()) + ", y:" + pixelToGrid((int)point.getY()));
+        int x = pixelToGrid((int)point.getX());
+        int y = pixelToGrid((int)point.getY());
+        DebugUtil.println("mousePressed x:" + x + ", y:" + y);
+
+        // ボタンの種類を取得
+        int button = e.getButton();
 
         // ドラッグフラグをオンにする
         dragFlag = true;
+
+        // 左クリックの場合
+        if(MouseEvent.BUTTON1 == button) {
+
+            // 選択マスのカバーを変更
+            if(cover[y][x] == COVER_STATE_PULL) {
+                cover[y][x] = COVER_STATE_DENT;
+
+                repaint();
+            }
+        }
     }
 
     /**

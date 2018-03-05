@@ -30,9 +30,9 @@ public class MainPanel extends JPanel {
     public MainPanel(Difficulty difficulty) {
 
         // コンポーネントの幅を取得
-        int width = difficulty.TILE_X * difficulty.TILE_SIZE  + 20;
+        int width = difficulty.TILE_X * difficulty.TILE_SIZE  + 10;
         // コンポーネントの高さを取得
-        int height = difficulty.TILE_Y * difficulty.TILE_SIZE + 90;
+        int height = difficulty.TILE_Y * difficulty.TILE_SIZE + 70;
 
         // コンポーネントの推奨サイズを設定、pack()するときに必要
         setPreferredSize(new Dimension(width, height));
