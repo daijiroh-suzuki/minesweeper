@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.net.URL;
 import java.util.Random;
 
@@ -16,11 +17,12 @@ import jp.dsuzuki.minesweeper.MainPanel;
 import jp.dsuzuki.minesweeper.common.Difficulty;
 import jp.dsuzuki.minesweeper.debug.DebugUtil;
 
-public class MainBoad extends JPanel implements MouseListener {
+public class MainBoad extends JPanel implements MouseListener, MouseMotionListener {
 
     /** 盤面の状態 */
     private static final int BOAD_STATE_NONE = 0;
     private static final int BOAD_STATE_BOMB = 9;
+    private static final int BOAD_STATE_BOMB_S = 10;
     private static final int BOAD_STATE_WALL = 99;
 
     /** カバーの状態 */
@@ -63,11 +65,18 @@ public class MainBoad extends JPanel implements MouseListener {
     /** 初回クリックフラグ */
     private boolean clickFlag;
 
-    /** マウスドラッグフラグ */
-    private boolean dragFlag;
+    /** ゲームクリアフラグ */
+    private boolean clearFlag;
+
+    /** コンポーネント領域内フラグ */
+    private boolean enteredFlag;
 
     /** 盤面画像イメージ */
     private Image image;
+
+    private int dentX;
+    private int dentY;
+    private int dentValue;
 
     /**
      * コンストラクタ
@@ -96,6 +105,8 @@ public class MainBoad extends JPanel implements MouseListener {
 
         // MouseListenerを設定
         addMouseListener(this);
+        // MouseMotionListenerを設定
+        addMouseMotionListener(this);
     }
 
     /**
@@ -130,6 +141,9 @@ public class MainBoad extends JPanel implements MouseListener {
         // 初回クリックフラグを初期化する
         clickFlag = false;
 
+        // ゲームクリアフラグを初期化する
+        clearFlag = false;
+
         DebugUtil.println("盤面の初期化完了");
 
         repaint();
@@ -150,14 +164,14 @@ public class MainBoad extends JPanel implements MouseListener {
             int bombX = rand.nextInt(tileX) + 1;
             int bombY = rand.nextInt(tileY) + 1;
 
-            // 取得したx,y座標が初回クリック座標の場合は取得し直し
+            // 取得したx,y座標が初回クリック座標の場合は再取得
             if(bombX == x && bombY == y) {
                 DebugUtil.println("x:" + bombX + ",y:" + bombY + "は初回クリック座標なのでやり直します。");
                 i--;
                 continue;
             }
 
-            // 取得したx,y座標に既に爆弾があった場合は取得し直し
+            // 取得したx,y座標に既に爆弾がある場合は再取得
             if(boad[bombY][bombX] == BOAD_STATE_BOMB) {
                 DebugUtil.println("x:" + bombX + ",y:" + bombY + "に既に爆弾が設定されているのでやり直します。");
                 i--;
@@ -323,6 +337,9 @@ public class MainBoad extends JPanel implements MouseListener {
         MainPanel.getTimer().stop();
         // ボタン表示を変更
         MainPanel.getButton().setText(InitButton.BUTTON_GAME_CLEAR);
+
+        // ゲームクリアフラグをオン
+        clearFlag = true;
     }
 
     /**
@@ -330,6 +347,15 @@ public class MainBoad extends JPanel implements MouseListener {
      */
     @Override
     public void mousePressed(MouseEvent e) {
+
+        // ゲームクリア後は処理をスキップする
+        if(clearFlag) {
+            return;
+        }
+        // コンポーネント領域外の場合は処理をスキップする
+        if(!enteredFlag) {
+            return;
+        }
 
         // グリッド座標を取得
         Point point = e.getPoint();
@@ -340,14 +366,16 @@ public class MainBoad extends JPanel implements MouseListener {
         // ボタンの種類を取得
         int button = e.getButton();
 
-        // ドラッグフラグをオンにする
-        dragFlag = true;
-
         // 左クリックの場合
         if(MouseEvent.BUTTON1 == button) {
 
             // 選択マスのカバーを変更
             if(cover[y][x] == COVER_STATE_PULL) {
+
+                dentX = x;
+                dentY = y;
+                dentValue = cover[y][x];
+
                 cover[y][x] = COVER_STATE_DENT;
 
                 repaint();
@@ -361,6 +389,15 @@ public class MainBoad extends JPanel implements MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
 
+        // ゲームクリア後は処理をスキップする
+        if(clearFlag) {
+            return;
+        }
+        // コンポーネント領域外の場合は処理をスキップする
+        if(!enteredFlag) {
+            return;
+        }
+
         // グリッド座標を取得
         Point point = e.getPoint();
         int x = pixelToGrid((int)point.getX());
@@ -370,16 +407,11 @@ public class MainBoad extends JPanel implements MouseListener {
         // ボタンの種類を取得
         int button = e.getButton();
 
-        // ドラッグフラグがオフの場合は処理をスキップする
-        if(!dragFlag) {
-            return;
-        }
-
-        // ドラッグフラグをオフにする
-        dragFlag = false;
-
         // 左クリックの場合
         if(MouseEvent.BUTTON1 == button) {
+
+            // 変更したカバーを戻す
+            cover[dentY][dentX] = dentValue;
 
             // 選択マスのカバーがフラグの場合は処理をスキップする
             if(cover[y][x] == COVER_STATE_FLAG) {
@@ -411,6 +443,8 @@ public class MainBoad extends JPanel implements MouseListener {
 
                 // 選択マスが爆弾の場合
                 } else if(boad[y][x] == BOAD_STATE_BOMB) {
+                    // 選択した爆弾のみ表示変更
+                    boad[y][x] = BOAD_STATE_BOMB_S;
                     // ゲームオーバー処理
                     gameOver();
 
@@ -453,10 +487,7 @@ public class MainBoad extends JPanel implements MouseListener {
      */
     @Override
     public void mouseEntered(MouseEvent e) {
-
-        if(!dragFlag) {
-            dragFlag = true;
-        }
+        enteredFlag = true;
     }
 
     /**
@@ -464,8 +495,43 @@ public class MainBoad extends JPanel implements MouseListener {
      */
     @Override
     public void mouseExited(MouseEvent e) {
+        enteredFlag = false;
+    }
 
-        dragFlag = false;
+    /**
+     * マウスポインタ移動時の処理
+     */
+    @Override
+    public void mouseMoved(MouseEvent e) {}
+
+    /**
+     * ドラッグ時の処理
+     */
+    @Override
+    public void mouseDragged(MouseEvent e) {
+
+        // ゲームクリア後は処理をスキップする
+        if(clearFlag) {
+            return;
+        }
+        // コンポーネント領域外の場合は処理をスキップする
+        if(!enteredFlag) {
+            return;
+        }
+
+        // グリッド座標を取得
+        Point point = e.getPoint();
+        int x = pixelToGrid((int)point.getX());
+        int y = pixelToGrid((int)point.getY());
+        DebugUtil.println("mouseDragged x:" + x + ", y:" + y);
+
+        // ボタンの種類を取得
+        int button = e.getButton();
+
+        // 左クリックの場合
+        if(MouseEvent.BUTTON1 == button) {
+
+        }
     }
 
     /**

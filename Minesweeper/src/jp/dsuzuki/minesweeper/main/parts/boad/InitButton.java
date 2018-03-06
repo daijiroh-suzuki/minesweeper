@@ -13,7 +13,7 @@ public class InitButton extends JButton implements MouseListener {
     /** ボタンラベル：初期値 */
     public static final String BUTTON_INIT = "(・＿・)";
     /** ボタンラベル：ゲームオーバー */
-    public static final String BUTTON_GAME_OVER = "(´･ω･`) ｼｮﾎﾞｰﾝ";
+    public static final String BUTTON_GAME_OVER = "(´･ω･`)ｼｮﾎﾞｰﾝ";
     /** ボタンラベル：ゲームクリア */
     public static final String BUTTON_GAME_CLEAR = "(`･ω･´)ｼｬｷｰﾝ";
 
