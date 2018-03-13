@@ -369,16 +369,18 @@ public class MainBoad extends JPanel implements MouseListener, MouseMotionListen
         // 左クリックの場合
         if(MouseEvent.BUTTON1 == button) {
 
-            // 選択マスのカバーを変更
-            if(cover[y][x] == COVER_STATE_PULL) {
+            dentX = x;
+            dentY = y;
 
-                dentX = x;
-                dentY = y;
+            if(cover[y][x] != COVER_STATE_NONE) {
+
                 dentValue = cover[y][x];
-
                 cover[y][x] = COVER_STATE_DENT;
 
                 repaint();
+
+            } else {
+                dentValue = -99;
             }
         }
     }
@@ -411,7 +413,9 @@ public class MainBoad extends JPanel implements MouseListener, MouseMotionListen
         if(MouseEvent.BUTTON1 == button) {
 
             // 変更したカバーを戻す
-            cover[dentY][dentX] = dentValue;
+            if(dentValue != -99) {
+                cover[dentY][dentX] = dentValue;
+            }
 
             // 選択マスのカバーがフラグの場合は処理をスキップする
             if(cover[y][x] == COVER_STATE_FLAG) {
@@ -523,14 +527,23 @@ public class MainBoad extends JPanel implements MouseListener, MouseMotionListen
         Point point = e.getPoint();
         int x = pixelToGrid((int)point.getX());
         int y = pixelToGrid((int)point.getY());
-        DebugUtil.println("mouseDragged x:" + x + ", y:" + y);
+//        DebugUtil.println("mouseDragged x:" + x + ", y:" + y);
 
-        // ボタンの種類を取得
-        int button = e.getButton();
+        // カバーを戻す
+        if(dentValue != -99) {
+            cover[dentY][dentX] = dentValue;
+        }
 
-        // 左クリックの場合
-        if(MouseEvent.BUTTON1 == button) {
+        dentX = x;
+        dentY = y;
 
+        if(cover[y][x] != COVER_STATE_NONE) {
+
+            dentValue = cover[y][x];
+            cover[y][x] = COVER_STATE_DENT;
+            repaint();
+        } else {
+            dentValue = -99;
         }
     }
 
