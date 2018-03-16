@@ -366,22 +366,19 @@ public class MainBoad extends JPanel implements MouseListener, MouseMotionListen
         // ボタンの種類を取得
         int button = e.getButton();
 
-        // 左クリックの場合
-        if(MouseEvent.BUTTON1 == button) {
 
-            dentX = x;
-            dentY = y;
+        dentX = x;
+        dentY = y;
 
-            if(cover[y][x] != COVER_STATE_NONE) {
+        if(cover[y][x] != COVER_STATE_NONE) {
 
-                dentValue = cover[y][x];
-                cover[y][x] = COVER_STATE_DENT;
+            dentValue = cover[y][x];
+            cover[y][x] = COVER_STATE_DENT;
 
-                repaint();
+            repaint();
 
-            } else {
-                dentValue = -99;
-            }
+        } else {
+            dentValue = -99;
         }
     }
 
@@ -406,19 +403,20 @@ public class MainBoad extends JPanel implements MouseListener, MouseMotionListen
         int y = pixelToGrid((int)point.getY());
         DebugUtil.println("mouseReleased x:" + x + ", y:" + y);
 
+        // 変更したカバーを戻す
+        if(dentValue != -99) {
+            cover[dentY][dentX] = dentValue;
+        }
+
         // ボタンの種類を取得
         int button = e.getButton();
 
         // 左クリックの場合
         if(MouseEvent.BUTTON1 == button) {
 
-            // 変更したカバーを戻す
-            if(dentValue != -99) {
-                cover[dentY][dentX] = dentValue;
-            }
-
             // 選択マスのカバーがフラグの場合は処理をスキップする
             if(cover[y][x] == COVER_STATE_FLAG) {
+                repaint();
                 return;
             }
 
@@ -527,7 +525,6 @@ public class MainBoad extends JPanel implements MouseListener, MouseMotionListen
         Point point = e.getPoint();
         int x = pixelToGrid((int)point.getX());
         int y = pixelToGrid((int)point.getY());
-//        DebugUtil.println("mouseDragged x:" + x + ", y:" + y);
 
         // カバーを戻す
         if(dentValue != -99) {
@@ -541,10 +538,10 @@ public class MainBoad extends JPanel implements MouseListener, MouseMotionListen
 
             dentValue = cover[y][x];
             cover[y][x] = COVER_STATE_DENT;
-            repaint();
         } else {
             dentValue = -99;
         }
+        repaint();
     }
 
     /**
