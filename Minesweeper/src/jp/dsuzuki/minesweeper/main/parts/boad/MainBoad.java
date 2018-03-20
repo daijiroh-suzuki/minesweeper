@@ -363,10 +363,6 @@ public class MainBoad extends JPanel implements MouseListener, MouseMotionListen
         int y = pixelToGrid((int)point.getY());
         DebugUtil.println("mousePressed x:" + x + ", y:" + y);
 
-        // ボタンの種類を取得
-        int button = e.getButton();
-
-
         dentX = x;
         dentY = y;
 
