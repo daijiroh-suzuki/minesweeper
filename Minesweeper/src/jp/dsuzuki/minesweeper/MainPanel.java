@@ -1,67 +1,57 @@
 package jp.dsuzuki.minesweeper;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import jp.dsuzuki.minesweeper.common.CommonConstant;
 import jp.dsuzuki.minesweeper.common.Difficulty;
 import jp.dsuzuki.minesweeper.main.parts.boad.Counter;
+import jp.dsuzuki.minesweeper.main.parts.boad.InitButton;
 import jp.dsuzuki.minesweeper.main.parts.boad.MainBoad;
 import jp.dsuzuki.minesweeper.main.parts.boad.Timer;
 
 public class MainPanel extends JPanel {
 
+    /** 初期化ボタン */
+    private static InitButton button;
     /** タイマー */
-    private Timer timer;
+    private static Timer timer;
     /** カウンタ */
-    private Counter counter;
+    private static Counter counter;
     /** 盤面 */
-    private MainBoad boad;
+    private static MainBoad boad;
 
     /**
      * コンストラクタ
      */
     public MainPanel(Difficulty difficulty) {
 
-        // パネルの幅を取得
-        int width = difficulty.TILE_X * difficulty.TILE_SIZE  + 20;
-        // パネルの高さを取得
-        int height = difficulty.TILE_Y * difficulty.TILE_SIZE + 90;
+        // コンポーネントの幅を取得
+        int width = difficulty.TILE_X * difficulty.TILE_SIZE  + 10;
+        // コンポーネントの高さを取得
+        int height = difficulty.TILE_Y * difficulty.TILE_SIZE + 70;
 
-        // パネルの推奨サイズを設定、pack()するときに必要
+        // コンポーネントの推奨サイズを設定、pack()するときに必要
         setPreferredSize(new Dimension(width, height));
 
-        // ボタンを生成
-        JButton button = new JButton(CommonConstant.BUTTON_INIT);
+        // 背景色を設定
+        setBackground(new Color(176,176,176));
+
+        // 初期化ボタンを生成
+        button = new InitButton();
         // タイマーを生成
         timer = new Timer();
         // カウンタを生成
         counter = new Counter(difficulty);
         // 盤面クラスを生成
-        boad = new MainBoad(button, timer, counter, difficulty);
-
-        // ボタンのアクションリスナーを設定
-        button.addMouseListener(
-                new MouseAdapter() {
-                    public void mouseReleased(MouseEvent e) {
-                        JButton btn = (JButton)e.getSource();
-                        btn.setText(CommonConstant.BUTTON_INIT);
-                        System.out.println("ボタンが押されました。盤面を初期化します。");
-                        boad.init(); // 盤面を初期化
-                        timer.init(); // タイマーを初期化
-                        counter.init(); // カウンタを初期化
-                    }
-                });
+        boad = new MainBoad(difficulty);
 
         JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
+        panel.setBackground(new Color(176,176,176));
+        panel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
 
         panel.add(timer);
         panel.add(button);
@@ -72,9 +62,38 @@ public class MainPanel extends JPanel {
     }
 
     /**
-     * 描画処理
+     * 初期化ボタンを取得
+     *
+     * @return
      */
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    public static InitButton getButton() {
+        return button;
+    }
+
+    /**
+     * タイマーを取得
+     *
+     * @return
+     */
+    public static Timer getTimer() {
+        return timer;
+    }
+
+    /**
+     * カウンタを取得
+     *
+     * @return
+     */
+    public static Counter getCounter() {
+        return counter;
+    }
+
+    /**
+     * 盤面を取得
+     *
+     * @return
+     */
+    public static MainBoad getBoard() {
+        return boad;
     }
 }

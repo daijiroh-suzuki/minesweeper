@@ -3,6 +3,8 @@ package jp.dsuzuki.minesweeper.common;
 import java.io.InputStream;
 import java.util.Properties;
 
+import jp.dsuzuki.minesweeper.debug.DebugUtil;
+
 /**
  * 設定ファイル読み込みクラス (Singleton)
  *
@@ -12,7 +14,7 @@ import java.util.Properties;
 public class ConfigReader {
 
     /** バージョン設定ファイル */
-    private static final String VERSION_FILE = "/version.properties";
+    private static final String SYSTEM_FILE = "/system.properties";
     /** メッセージ設定ファイル */
     private static final String MESSAGE_FILE = "/message.properties";
 
@@ -29,9 +31,9 @@ public class ConfigReader {
         properties = new Properties();
         try {
             // バージョン設定ファイル読み込み
-            InputStream versionIs = this.getClass().getResourceAsStream(VERSION_FILE);
-            properties.load(versionIs);
-            versionIs.close();
+            InputStream systemIs = this.getClass().getResourceAsStream(SYSTEM_FILE);
+            properties.load(systemIs);
+            systemIs.close();
 
             // メッセージ設定ファイル読み込み
             InputStream messageIs = this.getClass().getResourceAsStream(MESSAGE_FILE);
@@ -39,7 +41,7 @@ public class ConfigReader {
             messageIs.close();
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            DebugUtil.println(e.getMessage());
         }
     }
 

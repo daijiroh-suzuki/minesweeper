@@ -6,26 +6,29 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.net.URL;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import jp.dsuzuki.minesweeper.common.CommonConstant;
+import jp.dsuzuki.minesweeper.MainPanel;
 import jp.dsuzuki.minesweeper.common.Difficulty;
+import jp.dsuzuki.minesweeper.debug.DebugUtil;
 
-public class MainBoad extends JPanel implements MouseListener {
+public class MainBoad extends JPanel implements MouseListener, MouseMotionListener {
 
     /** 盤面の状態 */
     private static final int BOAD_STATE_NONE = 0;
     private static final int BOAD_STATE_BOMB = 9;
+    private static final int BOAD_STATE_BOMB_S = 10;
     private static final int BOAD_STATE_WALL = 99;
 
     /** カバーの状態 */
     private static final int COVER_STATE_NONE = -1;
     private static final int COVER_STATE_PULL = 0;
-    //private static final int COVER_STATE_DENT = 1;
+    private static final int COVER_STATE_DENT = 1;
     private static final int COVER_STATE_FLAG = 2;
     private static final int COVER_STATE_QUES = 3;
 
@@ -34,17 +37,13 @@ public class MainBoad extends JPanel implements MouseListener {
     /** 周囲8方向の参照y方向 */
     private static final int[] DIRECTION_Y = {-1, -1, 0, 1, 1,  1,  0, -1};
 
+    /** 画像ファイルパス */
+    private static final String IMAGE_FILE = "image/tile.gif";
+
     /** 盤面画像読み込み位置用定数  */
     private static final int IMAGE_BOAD  = 0;
     /** カバー画像読み込み位置用定数 */
     private static final int IMAGE_COVER = 30;
-
-    /** タイマー */
-    private Timer timer;
-    /** カウンタ */
-    private Counter counter;
-    /** メインボタン */
-    private JButton mainButton;
 
     /** x方向のタイル数 */
     private int tileX;
@@ -66,16 +65,23 @@ public class MainBoad extends JPanel implements MouseListener {
     /** 初回クリックフラグ */
     private boolean clickFlag;
 
-    /** マウスドラッグフラグ */
-    private boolean dragFlag;
+    /** ゲームクリアフラグ */
+    private boolean clearFlag;
+
+    /** コンポーネント領域内フラグ */
+    private boolean enteredFlag;
 
     /** 盤面画像イメージ */
     private Image image;
 
+    private int dentX;
+    private int dentY;
+    private int dentValue;
+
     /**
      * コンストラクタ
      */
-    public MainBoad(JButton btn, Timer tmr, Counter cnt, Difficulty difficulty) {
+    public MainBoad(Difficulty difficulty) {
 
         // x方向のタイル数を取得
         tileX = difficulty.TILE_X;
@@ -91,13 +97,6 @@ public class MainBoad extends JPanel implements MouseListener {
         // パネルの推奨サイズを設定
         setPreferredSize(new Dimension(tileX * tileSize, tileY * tileSize));
 
-        // タイマーを設定
-        timer = tmr;
-        // カウンタを設定
-        counter = cnt;
-        // メインボタンを設定
-        mainButton = btn;
-
         // 盤面の初期化を行う
         init();
 
@@ -106,6 +105,8 @@ public class MainBoad extends JPanel implements MouseListener {
 
         // MouseListenerを設定
         addMouseListener(this);
+        // MouseMotionListenerを設定
+        addMouseMotionListener(this);
     }
 
     /**
@@ -140,7 +141,10 @@ public class MainBoad extends JPanel implements MouseListener {
         // 初回クリックフラグを初期化する
         clickFlag = false;
 
-        System.out.println("盤面の初期化完了");
+        // ゲームクリアフラグを初期化する
+        clearFlag = false;
+
+        DebugUtil.println("盤面の初期化完了");
 
         repaint();
     }
@@ -157,26 +161,26 @@ public class MainBoad extends JPanel implements MouseListener {
 
         for(int i=0; i<bombNum; i++) {
             // 乱数で爆弾のx,y座標を取得
-            int bombX = rand.nextInt(tileX - 2) + 1;
-            int bombY = rand.nextInt(tileY - 2) + 1;
+            int bombX = rand.nextInt(tileX) + 1;
+            int bombY = rand.nextInt(tileY) + 1;
 
-            // 取得したx,y座標が初回クリック座標の場合は取得し直し
+            // 取得したx,y座標が初回クリック座標の場合は再取得
             if(bombX == x && bombY == y) {
-                System.out.println("x:" + bombX + ",y:" + bombY + "は初回クリック座標なのでやり直します。");
+                DebugUtil.println("x:" + bombX + ",y:" + bombY + "は初回クリック座標なのでやり直します。");
                 i--;
                 continue;
             }
 
-            // 取得したx,y座標に既に爆弾があった場合は取得し直し
+            // 取得したx,y座標に既に爆弾がある場合は再取得
             if(boad[bombY][bombX] == BOAD_STATE_BOMB) {
-                System.out.println("x:" + bombX + ",y:" + bombY + "に既に爆弾が設定されているのでやり直します。");
+                DebugUtil.println("x:" + bombX + ",y:" + bombY + "に既に爆弾が設定されているのでやり直します。");
                 i--;
                 continue;
             }
             // 爆弾を盤面に設定
             boad[bombY][bombX] = BOAD_STATE_BOMB;
 
-            System.out.println("爆弾をx:" + bombX + ",y:" + bombY + "にセットしました。");
+            DebugUtil.println("爆弾をx:" + bombX + ",y:" + bombY + "にセットしました。");
         }
     }
 
@@ -185,7 +189,7 @@ public class MainBoad extends JPanel implements MouseListener {
      */
     private void calcBoad() {
 
-        System.out.println("盤面の値の計算を開始します。");
+        DebugUtil.println("盤面の値の計算を開始します。");
 
         for(int i=1; i<boad.length-1; i++) {
             for(int j=1; j<boad[i].length-1; j++) {
@@ -207,7 +211,7 @@ public class MainBoad extends JPanel implements MouseListener {
             }
         }
 
-        System.out.println("盤面の値の計算が完了しました。");
+        DebugUtil.println("盤面の値の計算が完了しました。");
     }
 
     /**
@@ -268,7 +272,7 @@ public class MainBoad extends JPanel implements MouseListener {
     private void openZeroTile(int x, int y) {
 
         if(cover[y][x] == COVER_STATE_FLAG) {
-            counter.countUp();  // カウンタを加算
+            MainPanel.getCounter().countUp();  // カウンタを加算
         }
 
         // カバーをオープンする
@@ -303,9 +307,9 @@ public class MainBoad extends JPanel implements MouseListener {
         }
 
         // タイマーを停止
-        timer.stop();
+        MainPanel.getTimer().stop();
         // ボタン表示を変更
-        mainButton.setText(CommonConstant.BUTTON_GAME_OVER);
+        MainPanel.getButton().setText(InitButton.BUTTON_GAME_OVER);
     }
 
     /**
@@ -321,8 +325,8 @@ public class MainBoad extends JPanel implements MouseListener {
             }
         }
 
-        System.out.println("オープンされているカバー数：" + cnt);
-        System.out.println("クリア条件：" + clearNum);
+        DebugUtil.println("オープンされているカバー数：" + cnt);
+        DebugUtil.println("クリア条件：" + clearNum);
 
         // オープンされていカバー数がクリア条件を満たしていない場合
         if(cnt < clearNum) {
@@ -330,9 +334,12 @@ public class MainBoad extends JPanel implements MouseListener {
         }
 
         // タイマーを停止
-        timer.stop();
+        MainPanel.getTimer().stop();
         // ボタン表示を変更
-        mainButton.setText(CommonConstant.BUTTON_GAME_CLEAR);
+        MainPanel.getButton().setText(InitButton.BUTTON_GAME_CLEAR);
+
+        // ゲームクリアフラグをオン
+        clearFlag = true;
     }
 
     /**
@@ -341,11 +348,34 @@ public class MainBoad extends JPanel implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
 
-        Point point = e.getPoint();
-        System.out.println("mousePressed x:" + pixelToGrid((int)point.getX()) + ", y:" + pixelToGrid((int)point.getY()));
+        // ゲームクリア後は処理をスキップする
+        if(clearFlag) {
+            return;
+        }
+        // コンポーネント領域外の場合は処理をスキップする
+        if(!enteredFlag) {
+            return;
+        }
 
-        // ドラッグフラグをオンにする
-        dragFlag = true;
+        // グリッド座標を取得
+        Point point = e.getPoint();
+        int x = pixelToGrid((int)point.getX());
+        int y = pixelToGrid((int)point.getY());
+        DebugUtil.println("mousePressed x:" + x + ", y:" + y);
+
+        dentX = x;
+        dentY = y;
+
+        if(cover[y][x] != COVER_STATE_NONE) {
+
+            dentValue = cover[y][x];
+            cover[y][x] = COVER_STATE_DENT;
+
+            repaint();
+
+        } else {
+            dentValue = -99;
+        }
     }
 
     /**
@@ -354,22 +384,37 @@ public class MainBoad extends JPanel implements MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
 
+        // ゲームクリア後は処理をスキップする
+        if(clearFlag) {
+            return;
+        }
+        // コンポーネント領域外の場合は処理をスキップする
+        if(!enteredFlag) {
+            return;
+        }
+
         // グリッド座標を取得
         Point point = e.getPoint();
         int x = pixelToGrid((int)point.getX());
         int y = pixelToGrid((int)point.getY());
-        System.out.println("mouseReleased x:" + x + ", y:" + y);
+        DebugUtil.println("mouseReleased x:" + x + ", y:" + y);
+
+        // 変更したカバーを戻す
+        if(dentValue != -99) {
+            cover[dentY][dentX] = dentValue;
+        }
 
         // ボタンの種類を取得
         int button = e.getButton();
 
-        // ドラッグフラグがオフの場合は処理をスキップする
-        if(!dragFlag) {
-            return;
-        }
-
         // 左クリックの場合
         if(MouseEvent.BUTTON1 == button) {
+
+            // 選択マスのカバーがフラグの場合は処理をスキップする
+            if(cover[y][x] == COVER_STATE_FLAG) {
+                repaint();
+                return;
+            }
 
             // 初回クリックの場合
             if(!clickFlag) {
@@ -378,33 +423,36 @@ public class MainBoad extends JPanel implements MouseListener {
                 // 盤面の値を計算する
                 calcBoad();
                 // タイマーを開始する
-                timer.start();
+                MainPanel.getTimer().start();
                 // デバック情報を出力
-                printBoad();
+                DebugUtil.printArray(boad);
 
                 clickFlag = true;
             }
 
-            // 選択マスの値がゼロの場合
-            if(boad[y][x] == BOAD_STATE_NONE) {
-                openZeroTile(x, y);
-                // ゲームクリア処理
-                gameClear();
+            // カバーがオープンされていない場合
+            if(cover[y][x] != COVER_STATE_NONE) {
 
-            // 選択マスが爆弾の場合
-            } else if(boad[y][x] == BOAD_STATE_BOMB) {
-                // ゲームオーバー処理
-                gameOver();
+                // 選択マスの値がゼロの場合
+                if(boad[y][x] == BOAD_STATE_NONE) {
+                    openZeroTile(x, y);
+                    // ゲームクリア処理
+                    gameClear();
 
-            // 上記以外の場合
-            } else {
-                if(cover[y][x] == COVER_STATE_FLAG) {
-                    counter.countUp(); // カウンタを加算
+                // 選択マスが爆弾の場合
+                } else if(boad[y][x] == BOAD_STATE_BOMB) {
+                    // 選択した爆弾のみ表示変更
+                    boad[y][x] = BOAD_STATE_BOMB_S;
+                    // ゲームオーバー処理
+                    gameOver();
+
+                // 上記以外の場合
+                } else {
+                    // カバーをオープンする
+                    cover[y][x] = COVER_STATE_NONE;
+                    // ゲームクリア処理
+                    gameClear();
                 }
-                // カバーをオープンする
-                cover[y][x] = COVER_STATE_NONE;
-                // ゲームクリア処理
-                gameClear();
             }
 
         // 右クリックの場合
@@ -412,19 +460,16 @@ public class MainBoad extends JPanel implements MouseListener {
 
             if(cover[y][x] == COVER_STATE_PULL) {
                 cover[y][x] = COVER_STATE_FLAG;
-                counter.countDown(); // カウンタを減算
+                MainPanel.getCounter().countDown(); // カウンタを減算
 
             } else if(cover[y][x] == COVER_STATE_FLAG) {
                 cover[y][x] = COVER_STATE_QUES;
-                counter.countUp(); // カウンタを加算
+                MainPanel.getCounter().countUp(); // カウンタを加算
 
             } else if(cover[y][x] == COVER_STATE_QUES) {
                 cover[y][x] = COVER_STATE_PULL;
             }
         }
-
-        // ドラッグフラグをオフにする
-        dragFlag = false;
 
         repaint();
     }
@@ -440,10 +485,7 @@ public class MainBoad extends JPanel implements MouseListener {
      */
     @Override
     public void mouseEntered(MouseEvent e) {
-
-        if(!dragFlag) {
-            dragFlag = true;
-        }
+        enteredFlag = true;
     }
 
     /**
@@ -451,28 +493,59 @@ public class MainBoad extends JPanel implements MouseListener {
      */
     @Override
     public void mouseExited(MouseEvent e) {
+        enteredFlag = false;
+    }
 
-        dragFlag = false;
+    /**
+     * マウスポインタ移動時の処理
+     */
+    @Override
+    public void mouseMoved(MouseEvent e) {}
+
+    /**
+     * ドラッグ時の処理
+     */
+    @Override
+    public void mouseDragged(MouseEvent e) {
+
+        // ゲームクリア後は処理をスキップする
+        if(clearFlag) {
+            return;
+        }
+        // コンポーネント領域外の場合は処理をスキップする
+        if(!enteredFlag) {
+            return;
+        }
+
+        // グリッド座標を取得
+        Point point = e.getPoint();
+        int x = pixelToGrid((int)point.getX());
+        int y = pixelToGrid((int)point.getY());
+
+        // カバーを戻す
+        if(dentValue != -99) {
+            cover[dentY][dentX] = dentValue;
+        }
+
+        dentX = x;
+        dentY = y;
+
+        if(cover[y][x] != COVER_STATE_NONE) {
+
+            dentValue = cover[y][x];
+            cover[y][x] = COVER_STATE_DENT;
+        } else {
+            dentValue = -99;
+        }
+        repaint();
     }
 
     /**
      * 画像をロードする
      */
     private void loadImage() {
-        ImageIcon icon = new ImageIcon("./image/tile.gif");
+        URL url = this.getClass().getClassLoader().getResource(IMAGE_FILE);
+        ImageIcon icon = new ImageIcon(url);
         image = icon.getImage();
-    }
-
-    /**
-     * 盤面の値をコンソールに出力する（デバック用）
-     */
-    private void printBoad() {
-
-        for(int i=0; i<boad.length; i++) {
-            for(int j=0; j<boad[i].length; j++) {
-                System.out.printf("%2d ", boad[i][j]);
-            }
-            System.out.println();
-        }
     }
 }
